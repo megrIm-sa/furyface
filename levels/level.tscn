@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbrew8mi5empu"]
+
+[ext_resource type="Texture2D" uid="uid://crwovwischbym" path="res://ui/health_bar/circle.png" id="1_80vhd"]
+[ext_resource type="Script" uid="uid://dbb8m2s6lt6s0" path="res://ui/health_bar/health_bar.gd" id="2_hjsbj"]
+[ext_resource type="Script" uid="uid://b1m7s236y081k" path="res://ui/health_bar/blood_surface.gd" id="3_5mrsh"]
+[ext_resource type="Shader" uid="uid://mspoiqnuplju" path="res://ui/health_bar/blood_shader.gdshader" id="4_safpt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5mrsh"]
+shader = ExtResource("4_safpt")
+shader_parameter/amplitude = 12.0
+shader_parameter/color = Color(0, 0, 0, 1)
+
+[node name="Level" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HealthBar" type="TextureRect" parent="CanvasLayer/Control"]
+clip_children = 2
+clip_contents = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -152.0
+offset_right = 152.0
+offset_bottom = -24.0
+grow_vertical = 0
+texture = ExtResource("1_80vhd")
+script = ExtResource("2_hjsbj")
+
+[node name="BloodSurface" type="ColorRect" parent="CanvasLayer/Control/HealthBar"]
+material = SubResource("ShaderMaterial_5mrsh")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_5mrsh")
+
+[node name="BloodFill" type="ColorRect" parent="CanvasLayer/Control/HealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0, 0, 1)
