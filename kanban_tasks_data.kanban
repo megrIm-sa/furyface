@@ -1,0 +1,286 @@
+{
+	"categories": [
+		{
+			"uuid": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"title": "Code",
+			"color": "29e5ff"
+		},
+		{
+			"uuid": "73308e09-2084-4de2-a2d0-424eda7ae5af",
+			"title": "Art",
+			"color": "f902bb"
+		},
+		{
+			"uuid": "e642cd2e-c41b-46a8-af4e-da7df29d45c2",
+			"title": "Bug",
+			"color": "c72020"
+		},
+		{
+			"uuid": "346bbd8e-d385-49b7-a6b1-fa0fa59fcb93",
+			"title": "Sound",
+			"color": "b7d916"
+		},
+		{
+			"uuid": "1ab8fabb-0df3-4ad8-85f9-37e72c3408f7",
+			"title": "UI",
+			"color": "22fa44"
+		}
+	],
+	"stages": [
+		{
+			"uuid": "fa561c51-a5a7-45c0-ba48-4b9ee2e58dc5",
+			"title": "TODO",
+			"tasks": [
+				"5990bfae-8206-4436-8bb3-8ef6e0894aa4",
+				"8931433d-562f-4e89-91e9-3f8c23a4ffaf",
+				"fa0ee3b8-aa7c-40eb-be29-d853c84b0810",
+				"a49a4dd1-9b96-408c-86b9-aa3b4d790cc9",
+				"b947e0f4-9c7d-463d-ba56-91fa2389b72e",
+				"d94f8fba-af65-4e05-82bd-160e1d685948",
+				"24e13a3a-67d2-4f15-9ef7-529d34b4efd7",
+				"d320f25c-e394-4018-a0ed-7a1e8425895c",
+				"ff33a245-e2fc-4b11-be0a-f9d2b6b326a1",
+				"49215122-39ba-4a5a-b689-6c374d24c749",
+				"7f284f62-6b66-4ed5-a270-532895d5c7e4",
+				"a3d1daeb-7dc3-4267-89ea-8462eae6212f",
+				"e2f84555-0ca7-4017-b2f6-52eaa9ec526b",
+				"f76d0027-d26f-4cae-9e20-f687900974bc",
+				"d7c7eb5f-c91b-4f1b-964a-fbacf4e4b57b",
+				"7b7ad2ad-3bd2-4033-b370-9b13da9c52e0",
+				"566c653a-5f8c-4f81-a6ed-eeb19eabfe3c",
+				"a5f34607-685c-4f6b-81e0-14da91c93b14",
+				"f57e2d71-34df-45c2-a72a-c6a24883a550",
+				"c35a5b35-cda1-478d-a87a-ad7edbb4045f",
+				"4a3ff317-4351-4b02-a990-c2ee14d1e4e2",
+				"18efc4cd-7974-4d3a-b56a-5dd21fe215ed",
+				"e388a145-03d7-485f-be68-08bdc6b09f1c",
+				"905520c1-7c95-4fbb-afcf-db27210595fa",
+				"f15898dc-fc80-4c6c-836f-8394022b28a6",
+				"961c66d4-ef97-468d-959e-983fe6a32941",
+				"e598996a-55de-442c-b5ae-47effa7c5a0a",
+				"0ad177cf-420a-47f9-8354-700cea2fc889"
+			]
+		},
+		{
+			"uuid": "c7f8fdd0-bb0c-4f48-9aa2-1c3af1d19707",
+			"title": "In progress",
+			"tasks": []
+		},
+		{
+			"uuid": "31f4fdb4-a062-4e27-b6d0-4dcff23213cd",
+			"title": "Done",
+			"tasks": []
+		}
+	],
+	"tasks": [
+		{
+			"uuid": "5990bfae-8206-4436-8bb3-8ef6e0894aa4",
+			"title": "Система бита",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "8931433d-562f-4e89-91e9-3f8c23a4ffaf",
+			"title": "Контроллер игрока",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "a49a4dd1-9b96-408c-86b9-aa3b4d790cc9",
+			"title": "Нанесение урона, подвязка с системой бита",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "b947e0f4-9c7d-463d-ba56-91fa2389b72e",
+			"title": "Контроллер врагов",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "d94f8fba-af65-4e05-82bd-160e1d685948",
+			"title": "Босс Ужас",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "24e13a3a-67d2-4f15-9ef7-529d34b4efd7",
+			"title": "Босс Отвращение",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "d320f25c-e394-4018-a0ed-7a1e8425895c",
+			"title": "Оружие Клинок",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "ff33a245-e2fc-4b11-be0a-f9d2b6b326a1",
+			"title": "Оружие Парные револьверы",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "49215122-39ba-4a5a-b689-6c374d24c749",
+			"title": "Дерево прокачки для оружия (по 3 ветки)",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "a3d1daeb-7dc3-4267-89ea-8462eae6212f",
+			"title": "Комнаты",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "e2f84555-0ca7-4017-b2f6-52eaa9ec526b",
+			"title": "Уровень",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "f76d0027-d26f-4cae-9e20-f687900974bc",
+			"title": "Отображение наград в следующей комнате",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "fa0ee3b8-aa7c-40eb-be29-d853c84b0810",
+			"title": "Рывок игрока, подвязка с системой бита",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "7b7ad2ad-3bd2-4033-b370-9b13da9c52e0",
+			"title": "Спрайт игрока и анимации",
+			"description": "",
+			"category": "73308e09-2084-4de2-a2d0-424eda7ae5af",
+			"steps": []
+		},
+		{
+			"uuid": "566c653a-5f8c-4f81-a6ed-eeb19eabfe3c",
+			"title": "Спрайты оружия и анимации",
+			"description": "",
+			"category": "73308e09-2084-4de2-a2d0-424eda7ae5af",
+			"steps": []
+		},
+		{
+			"uuid": "a5f34607-685c-4f6b-81e0-14da91c93b14",
+			"title": "Спрайты врагов",
+			"description": "",
+			"category": "73308e09-2084-4de2-a2d0-424eda7ae5af",
+			"steps": []
+		},
+		{
+			"uuid": "f57e2d71-34df-45c2-a72a-c6a24883a550",
+			"title": "Спрайты боссов",
+			"description": "",
+			"category": "73308e09-2084-4de2-a2d0-424eda7ae5af",
+			"steps": []
+		},
+		{
+			"uuid": "c35a5b35-cda1-478d-a87a-ad7edbb4045f",
+			"title": "Спрайты масок",
+			"description": "",
+			"category": "73308e09-2084-4de2-a2d0-424eda7ae5af",
+			"steps": []
+		},
+		{
+			"uuid": "7f284f62-6b66-4ed5-a270-532895d5c7e4",
+			"title": "Способность маски ярости",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "d7c7eb5f-c91b-4f1b-964a-fbacf4e4b57b",
+			"title": "Способоность маски страха",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "18efc4cd-7974-4d3a-b56a-5dd21fe215ed",
+			"title": "Треки для территории Отвращения",
+			"description": "",
+			"category": "346bbd8e-d385-49b7-a6b1-fa0fa59fcb93",
+			"steps": []
+		},
+		{
+			"uuid": "4a3ff317-4351-4b02-a990-c2ee14d1e4e2",
+			"title": "Треки для территории Ужаса",
+			"description": "",
+			"category": "346bbd8e-d385-49b7-a6b1-fa0fa59fcb93",
+			"steps": []
+		},
+		{
+			"uuid": "e388a145-03d7-485f-be68-08bdc6b09f1c",
+			"title": "Трек для режима ярости",
+			"description": "",
+			"category": "346bbd8e-d385-49b7-a6b1-fa0fa59fcb93",
+			"steps": []
+		},
+		{
+			"uuid": "905520c1-7c95-4fbb-afcf-db27210595fa",
+			"title": "SFX для режима страха",
+			"description": "",
+			"category": "346bbd8e-d385-49b7-a6b1-fa0fa59fcb93",
+			"steps": []
+		},
+		{
+			"uuid": "f15898dc-fc80-4c6c-836f-8394022b28a6",
+			"title": "Отображение комбо",
+			"description": "",
+			"category": "1ab8fabb-0df3-4ad8-85f9-37e72c3408f7",
+			"steps": []
+		},
+		{
+			"uuid": "961c66d4-ef97-468d-959e-983fe6a32941",
+			"title": "Отображение выбранной маски и заряда",
+			"description": "",
+			"category": "1ab8fabb-0df3-4ad8-85f9-37e72c3408f7",
+			"steps": []
+		},
+		{
+			"uuid": "e598996a-55de-442c-b5ae-47effa7c5a0a",
+			"title": "Доработать health bar",
+			"description": "",
+			"category": "1ab8fabb-0df3-4ad8-85f9-37e72c3408f7",
+			"steps": []
+		},
+		{
+			"uuid": "0ad177cf-420a-47f9-8354-700cea2fc889",
+			"title": "Отображение бита",
+			"description": "",
+			"category": "1ab8fabb-0df3-4ad8-85f9-37e72c3408f7",
+			"steps": []
+		}
+	],
+	"layout": {
+		"columns": [
+			[
+				"fa561c51-a5a7-45c0-ba48-4b9ee2e58dc5"
+			],
+			[
+				"c7f8fdd0-bb0c-4f48-9aa2-1c3af1d19707"
+			],
+			[
+				"31f4fdb4-a062-4e27-b6d0-4dcff23213cd"
+			]
+		]
+	}
+}
