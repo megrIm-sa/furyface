@@ -4,7 +4,8 @@ var _guide_tween: Tween
 
 
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed(&"main_key"):
+	
+	if Input.is_action_just_pressed(&"ui_accept"):
 		scale = 1.2 * Vector2.ONE
 		if _guide_tween:
 			_guide_tween.kill()

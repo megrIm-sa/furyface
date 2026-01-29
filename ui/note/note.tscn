@@ -1,10 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://cy5biswq7px38"]
 
-[ext_resource type="Script" uid="uid://crovspbob12v" path="res://objects/note/note.gd" id="1_doocs"]
-[ext_resource type="Texture2D" uid="uid://d0ithbpfu48ol" path="res://objects/note/note.png" id="2_wn01w"]
+[ext_resource type="Script" uid="uid://d1xktg40wtrvy" path="res://ui/note/note.gd" id="1_doocs"]
+[ext_resource type="Texture2D" uid="uid://c7c1rn3ser7r4" path="res://ui/note/note.png" id="2_wn01w"]
 
-[node name="Note" type="Node2D"]
-script = ExtResource("1_doocs")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Note" type="TextureRect"]
 texture = ExtResource("2_wn01w")
+script = ExtResource("1_doocs")

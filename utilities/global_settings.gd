@@ -13,5 +13,3 @@ signal scroll_speed_changed(speed: float)
 			scroll_speed = value
 			scroll_speed_changed.emit(value)
 @export var show_offsets: bool = false
-
-@export var selected_chart: ChartData.Chart = ChartData.Chart.THE_COMEBACK

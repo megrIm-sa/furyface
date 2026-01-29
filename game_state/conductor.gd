@@ -19,10 +19,12 @@ extends Node
 
 @export_group("Song Parameters")
 ## Beats per minute of the song.
-@export var bpm: float = 100
+@export var bpm: float = 120
 ## Offset (in milliseconds) of when the 1st beat of the song is in the audio
 ## file. [code]5000[/code] means the 1st beat happens 5 seconds into the track.
 @export var first_beat_offset_ms: int = 0
+## If true, the track will loop seamlessly, keeping the beat continuous.
+@export var loop: bool = true
 
 @export_group("Filter Parameters")
 ## [code]cutoff[/code] for the 1€ filter. Decrease to reduce jitter.
@@ -47,17 +49,19 @@ var _song_time_system: float = -100
 var _filter: OneEuroFilter
 var _filtered_audio_system_delta: float = 0
 
+# Virtual offset for seamless looping and track changes
+var _virtual_time_offset: float = 0.0
 
 func _ready() -> void:
 	# Ensure that playback state is always updating, otherwise the smoothing
 	# filter causes issues.
 	process_mode = Node.PROCESS_MODE_ALWAYS
-
+	player.finished.connect(_on_player_finished)
 
 func _process(_delta: float) -> void:
 	if not _is_playing:
 		return
-
+	
 	# Handle a web bug where AudioServer.get_time_since_last_mix() occasionally
 	# returns unsigned 64-bit integer max value. This is likely due to minor
 	# timing issues between the main/audio threads, thus causing an underflow
@@ -65,35 +69,36 @@ func _process(_delta: float) -> void:
 	var last_mix := AudioServer.get_time_since_last_mix()
 	if last_mix > 1000:
 		last_mix = 0
-
+	
 	# First, calculate the song time using data from the audio thread. This
 	# value is very jittery, but will always match what the player is hearing.
 	_song_time_audio = (
-			player.get_playback_position()
-			# The 1st beat may not start at second 0 of the audio track. Compensate
-			# with an offset setting.
-			- first_beat_offset_ms / 1000.0
-			# For most platforms, the playback position value updates in chunks,
-			# with each chunk being one "mix". Smooth this out by adding in the time
-			# since the last chunk was processed.
-			+ last_mix
-			# Current processed audio is heard later.
-			- _cached_output_latency
-		)
-
+		player.get_playback_position()
+		# The 1st beat may not start at second 0 of the audio track. Compensate
+		# with an offset setting.
+		- first_beat_offset_ms / 1000.0
+		# For most platforms, the playback position value updates in chunks,
+		# with each chunk being one "mix". Smooth this out by adding in the time
+		# since the last chunk was processed.
+		+ last_mix
+		# Current processed audio is heard later.
+		- _cached_output_latency
+		# Add virtual offset for continuous time during loops.
+		+ _virtual_time_offset
+	)
+	
 	# Next, calculate the song time using the system clock at render rate. This
 	# value is very stable, but can drift from the playing audio due to pausing,
 	# stuttering, etc.
 	_song_time_system = (Time.get_ticks_usec() / 1000000.0) - _song_time_begin
 	_song_time_system *= player.pitch_scale
-
+	
 	# We don't do anything else here. Check _physics_process next.
-
 
 func _physics_process(delta: float) -> void:
 	if not _is_playing:
 		return
-
+	
 	# To have the best of both the audio-based time and system-based time, we
 	# apply a smoothing filter (1€ filter) on the delta between the two values,
 	# then add it to the system-based time. This allows us to have a stable
@@ -108,11 +113,10 @@ func _physics_process(delta: float) -> void:
 	#   tuned for 60 UPS.
 	var audio_system_delta := _song_time_audio - _song_time_system
 	_filtered_audio_system_delta = _filter.filter(audio_system_delta, delta)
-
+	
 	# Uncomment this to show the difference between raw and filtered time.
 	#var song_time := _song_time_system + _filtered_audio_system_delta
 	#print("Error: %+.1f ms" % [abs(song_time - _song_time_audio) * 1000.0])
-
 
 func play() -> void:
 	var filter_args := {
@@ -120,41 +124,94 @@ func play() -> void:
 		"beta": lag_reduction,
 	}
 	_filter = OneEuroFilter.new(filter_args)
-
 	player.play()
 	_is_playing = true
-
+	
 	# Capture the start of the song using the system clock.
 	_song_time_begin = (
-			Time.get_ticks_usec() / 1000000.0
-			# The 1st beat may not start at second 0 of the audio track. Compensate
-			# with an offset setting.
-			+ first_beat_offset_ms / 1000.0
-			# Playback does not start immediately, but only when the next audio
-			# chunk is processed (the "mix" step). Add in the time until that
-			# happens.
-			+ AudioServer.get_time_to_next_mix()
-			# Add in additional output latency.
-			+ _cached_output_latency
-		)
-
+		Time.get_ticks_usec() / 1000000.0
+		# The 1st beat may not start at second 0 of the audio track. Compensate
+		# with an offset setting.
+		+ first_beat_offset_ms / 1000.0
+		# Playback does not start immediately, but only when the next audio
+		# chunk is processed (the "mix" step). Add in the time until that
+		# happens.
+		+ AudioServer.get_time_to_next_mix()
+		# Add in additional output latency.
+		+ _cached_output_latency
+	)
 
 func stop() -> void:
 	player.stop()
 	_is_playing = false
-
 
 ## Returns the current beat of the song.
 func get_current_beat() -> float:
 	var song_time := _song_time_system + _filtered_audio_system_delta
 	return song_time / get_beat_duration()
 
-
 ## Returns the current beat of the song without smoothing.
 func get_current_beat_raw() -> float:
 	return _song_time_audio / get_beat_duration()
 
-
 ## Returns the duration of one beat (in seconds).
 func get_beat_duration() -> float:
 	return 60 / bpm
+
+## Changes the current track seamlessly, preserving the current beat for rhythm continuity.
+func change_track(new_stream: AudioStream, new_bpm: float = bpm, new_first_beat_offset_ms: int = first_beat_offset_ms) -> void:
+	if not _is_playing:
+		return
+	
+	# Preserve current song time and beat.
+	var current_song_time := _song_time_system + _filtered_audio_system_delta
+	var current_beat := current_song_time / get_beat_duration()
+	
+	# Stop current playback.
+	stop()
+	
+	# Update parameters.
+	player.stream = new_stream
+	bpm = new_bpm
+	first_beat_offset_ms = new_first_beat_offset_ms
+	
+	# Calculate new beat duration.
+	var new_beat_duration := get_beat_duration()
+	
+	# Preserve beat by adjusting song time (if BPM changes, rhythm rate adjusts).
+	var preserved_song_time := current_beat * new_beat_duration
+	
+	# For seamless switch, treat new track as if it was looping: compute virtual offset and seek.
+	var new_length := new_stream.get_length()
+	if new_length > 0:
+		_virtual_time_offset = floor(preserved_song_time / new_length) * new_length
+		var effective_time := fmod(preserved_song_time, new_length)
+		var seek_position := effective_time + first_beat_offset_ms / 1000.0
+	
+		# Start playback from preserved position (mod length).
+		var filter_args := {
+			"cutoff": allowed_jitter,
+			"beta": lag_reduction,
+		}
+		_filter = OneEuroFilter.new(filter_args)
+		player.play()
+		player.seek(seek_position)
+		_is_playing = true
+		
+		# Adjust _song_time_begin to preserve continuous song time.
+		_song_time_begin = (
+			Time.get_ticks_usec() / 1000000.0
+			- preserved_song_time
+			+ AudioServer.get_time_to_next_mix()
+			+ _cached_output_latency
+		)
+	else:
+		# If no length (e.g., infinite stream), just start from 0.
+		play()
+
+func _on_player_finished() -> void:
+	if loop and player.stream:
+		var length := player.stream.get_length()
+		if length > 0:
+			_virtual_time_offset += length
+			player.play(0)

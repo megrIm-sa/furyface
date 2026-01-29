@@ -31,7 +31,6 @@
 			"uuid": "fa561c51-a5a7-45c0-ba48-4b9ee2e58dc5",
 			"title": "TODO",
 			"tasks": [
-				"5990bfae-8206-4436-8bb3-8ef6e0894aa4",
 				"8931433d-562f-4e89-91e9-3f8c23a4ffaf",
 				"fa0ee3b8-aa7c-40eb-be29-d853c84b0810",
 				"a49a4dd1-9b96-408c-86b9-aa3b4d790cc9",
@@ -46,6 +45,7 @@
 				"e2f84555-0ca7-4017-b2f6-52eaa9ec526b",
 				"f76d0027-d26f-4cae-9e20-f687900974bc",
 				"d7c7eb5f-c91b-4f1b-964a-fbacf4e4b57b",
+				"b998beae-22c3-4ba4-b547-d2f0536a7d47",
 				"7b7ad2ad-3bd2-4033-b370-9b13da9c52e0",
 				"566c653a-5f8c-4f81-a6ed-eeb19eabfe3c",
 				"a5f34607-685c-4f6b-81e0-14da91c93b14",
@@ -57,14 +57,16 @@
 				"905520c1-7c95-4fbb-afcf-db27210595fa",
 				"f15898dc-fc80-4c6c-836f-8394022b28a6",
 				"961c66d4-ef97-468d-959e-983fe6a32941",
-				"e598996a-55de-442c-b5ae-47effa7c5a0a",
-				"0ad177cf-420a-47f9-8354-700cea2fc889"
+				"e598996a-55de-442c-b5ae-47effa7c5a0a"
 			]
 		},
 		{
 			"uuid": "c7f8fdd0-bb0c-4f48-9aa2-1c3af1d19707",
 			"title": "In progress",
-			"tasks": []
+			"tasks": [
+				"5990bfae-8206-4436-8bb3-8ef6e0894aa4",
+				"0ad177cf-420a-47f9-8354-700cea2fc889"
+			]
 		},
 		{
 			"uuid": "31f4fdb4-a062-4e27-b6d0-4dcff23213cd",
@@ -267,6 +269,13 @@
 			"title": "Отображение бита",
 			"description": "",
 			"category": "1ab8fabb-0df3-4ad8-85f9-37e72c3408f7",
+			"steps": []
+		},
+		{
+			"uuid": "b998beae-22c3-4ba4-b547-d2f0536a7d47",
+			"title": "Добавить красивые тени, отражающие силуэт перса",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
 			"steps": []
 		}
 	],
