@@ -63,15 +63,15 @@
 		{
 			"uuid": "c7f8fdd0-bb0c-4f48-9aa2-1c3af1d19707",
 			"title": "In progress",
-			"tasks": [
-				"5990bfae-8206-4436-8bb3-8ef6e0894aa4",
-				"0ad177cf-420a-47f9-8354-700cea2fc889"
-			]
+			"tasks": []
 		},
 		{
 			"uuid": "31f4fdb4-a062-4e27-b6d0-4dcff23213cd",
 			"title": "Done",
-			"tasks": []
+			"tasks": [
+				"0ad177cf-420a-47f9-8354-700cea2fc889",
+				"5990bfae-8206-4436-8bb3-8ef6e0894aa4"
+			]
 		}
 	],
 	"tasks": [

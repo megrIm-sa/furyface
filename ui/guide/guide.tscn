@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://ciq0j5vie55ur"]
-
-[ext_resource type="Texture2D" uid="uid://dsv7e6c1avyhc" path="res://ui/guide/guide.png" id="1_fpaen"]
-[ext_resource type="Script" uid="uid://cewcabjxthu4t" path="res://ui/guide/guide.gd" id="2_euo2a"]
-
-[node name="Guide" type="Sprite2D"]
-texture = ExtResource("1_fpaen")
-script = ExtResource("2_euo2a")

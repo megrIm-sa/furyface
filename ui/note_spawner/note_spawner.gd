@@ -1,4 +1,8 @@
-extends Sprite2D
+class_name NoteSpawner
+extends TextureRect
+
+@export var movement_direction: Vector2 = Vector2(0, 1)
+@export var offset: Vector2 = Vector2.ZERO
 
 var _guide_tween: Tween
 
