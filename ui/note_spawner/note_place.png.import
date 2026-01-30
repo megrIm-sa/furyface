@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://o7pbwwjngbvc"
-path="res://.godot/imported/note2.png-94304ca39ed276848ece3fbf13d5b714.ctex"
+uid="uid://q7wtsb442dcn"
+path="res://.godot/imported/note_place.png-448f92d3a8330c91370cd3e82d46c44a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/note/note2.png"
-dest_files=["res://.godot/imported/note2.png-94304ca39ed276848ece3fbf13d5b714.ctex"]
+source_file="res://ui/note_spawner/note_place.png"
+dest_files=["res://.godot/imported/note_place.png-448f92d3a8330c91370cd3e82d46c44a.ctex"]
 
 [params]
 

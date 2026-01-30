@@ -7,7 +7,7 @@ signal scroll_speed_changed(speed: float)
 @export var enable_metronome: bool = false
 @export var input_latency_ms: int = 20
 
-@export var scroll_speed: float = 400:
+@export var scroll_speed: float = 100:
 	set(value):
 		if scroll_speed != value:
 			scroll_speed = value

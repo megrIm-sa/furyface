@@ -9,7 +9,7 @@ var _song_time_delta := 0.0
 
 @export var movement_direction: Vector2 = Vector2(0, 1)  # Направление движения (нормализованный вектор)
 @export var target_position: Vector2 = Vector2.ZERO  # Точка нажатия (относительно родителя)
-@export var fade_window_beats: float = 2  # Окно в битах для fade (ширина полной видимости)
+@export var fade_window_beats: float = 1.5  # Окно в битах для fade (ширина полной видимости)
 @export var min_alpha: float = 0  # Минимальная прозрачность дальних нот
 
 func _ready() -> void:

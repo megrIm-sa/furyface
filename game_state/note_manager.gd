@@ -4,8 +4,8 @@ extends Control
 signal note_hit(beat: float, hit_type: Enums.HitType, hit_error: float)
 
 const NOTE_SCENE = preload("res://ui/note/note.tscn")
-const HIT_MARGIN_PERFECT = 0.025
-const HIT_MARGIN_GOOD = 0.075
+const HIT_MARGIN_PERFECT = 0.050
+const HIT_MARGIN_GOOD = 0.150
 const HIT_MARGIN_MISS = 0.300
 
 @export var conductor: Conductor

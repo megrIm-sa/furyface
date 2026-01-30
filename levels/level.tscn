@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bbrew8mi5empu"]
+[gd_scene load_steps=19 format=3 uid="uid://bbrew8mi5empu"]
 
 [ext_resource type="Texture2D" uid="uid://crwovwischbym" path="res://ui/health_bar/circle.png" id="1_80vhd"]
 [ext_resource type="Script" uid="uid://blayqdkambb0r" path="res://levels/level.gd" id="1_pb8y7"]
@@ -7,9 +7,11 @@
 [ext_resource type="Shader" uid="uid://mspoiqnuplju" path="res://ui/health_bar/blood_shader.gdshader" id="4_safpt"]
 [ext_resource type="Script" uid="uid://cbdjxvq7h27s7" path="res://entities/player/player.gd" id="5_gjl0y"]
 [ext_resource type="Texture2D" uid="uid://cjowmeicmnc6x" path="res://entities/player/sprites/idle_down.png" id="5_safpt"]
+[ext_resource type="Script" uid="uid://bk0dstcu83xd8" path="res://ui/cursor/cursor.gd" id="7_d7v53"]
 [ext_resource type="PackedScene" uid="uid://cb7bo3ryay58c" path="res://ui/note_spawner/note_spawner.tscn" id="7_hy0rb"]
 [ext_resource type="Texture2D" uid="uid://6j3dqa0ik7lx" path="res://entities/player/sprites/shadow.png" id="7_vnv7o"]
 [ext_resource type="Script" uid="uid://wngqq40h2fut" path="res://game_state/conductor.gd" id="8_d5x7l"]
+[ext_resource type="Texture2D" uid="uid://3pxlsvabsbg5" path="res://ui/cursor/crosshair.png" id="8_mxp4k"]
 [ext_resource type="Script" uid="uid://ck74r7rhosput" path="res://game_state/note_manager.gd" id="9_rtcij"]
 [ext_resource type="AudioStream" uid="uid://bhacajhonb8o7" path="res://sound/music/pattern.ogg" id="10_pb8y7"]
 
@@ -128,41 +130,50 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 0, 0, 1)
 
-[node name="NoteManager" type="Control" parent="CanvasLayer/Control" node_paths=PackedStringArray("conductor", "spawners")]
-layout_mode = 1
+[node name="Cursor" type="Sprite2D" parent="CanvasLayer/Control"]
+texture = ExtResource("8_mxp4k")
+script = ExtResource("7_d7v53")
+follow_speed = 30.0
+
+[node name="NoteManager" type="Control" parent="CanvasLayer/Control/Cursor" node_paths=PackedStringArray("conductor", "spawners")]
+layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = -16.0
+offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("9_rtcij")
-conductor = NodePath("../../../Conductor")
+conductor = NodePath("../../../../Conductor")
 spawners = [NodePath("NoteSpawner"), NodePath("NoteSpawner2")]
 
-[node name="NoteSpawner" parent="CanvasLayer/Control/NoteManager" instance=ExtResource("7_hy0rb")]
+[node name="NoteSpawner" parent="CanvasLayer/Control/Cursor/NoteManager" instance=ExtResource("7_hy0rb")]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -156.0
-offset_top = -28.0
-offset_right = -128.0
-offset_bottom = 20.0
+offset_left = -40.0
+offset_top = -12.0
+offset_right = -26.0
+offset_bottom = 12.0
 grow_horizontal = 0
 flip_h = true
 movement_direction = Vector2(1, 0)
 
-[node name="NoteSpawner2" parent="CanvasLayer/Control/NoteManager" instance=ExtResource("7_hy0rb")]
+[node name="NoteSpawner2" parent="CanvasLayer/Control/Cursor/NoteManager" instance=ExtResource("7_hy0rb")]
 layout_mode = 1
 anchors_preset = 4
 anchor_left = 0.0
 anchor_right = 0.0
-offset_left = 128.0
-offset_top = -28.0
-offset_right = 156.0
-offset_bottom = 20.0
+offset_left = 24.0
+offset_top = -12.0
+offset_right = 38.0
+offset_bottom = 12.0
 grow_horizontal = 1
 movement_direction = Vector2(-1, 0)
 
