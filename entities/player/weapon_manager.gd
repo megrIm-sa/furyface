@@ -9,7 +9,7 @@ signal weapon_upgraded(weapon: Weapon, branch: int, level: int)
 @export_group("Weapon Scenes")
 @export var blade_scene: PackedScene
 @export var revolvers_scene: PackedScene
-@export var debug_logs: bool = true  # Добавьте это
+
 var player: Player
 var current_weapon: Weapon
 var weapons: Dictionary = {}
@@ -72,39 +72,18 @@ func switch_weapon(weapon_type: Enums.WeaponType):
 		push_warning("WeaponManager: weapon type %s not found!" % Enums.WeaponType.keys()[weapon_type])
 
 func try_attack(note_manager: NoteManager) -> bool:
-	if debug_logs:
-		print("[WeaponManager] ━━━━━━━━━━━━━━━━━━━━━━━━")
-		print("[WeaponManager] try_attack() called")
-		print("[WeaponManager]   current_weapon: %s" % current_weapon)
-	
-	if not current_weapon:
-		if debug_logs:
-			print("[WeaponManager] ❌ No current weapon!")
-		return false
-	
-	if not current_weapon.can_attack():
-		if debug_logs:
-			print("[WeaponManager] ❌ Weapon cannot attack")
+	if not current_weapon or not current_weapon.can_attack():
 		return false
 	
 	var hit_type: Enums.HitType = note_manager.resolve_hit()
 	
-	if debug_logs:
-		print("[WeaponManager]   hit_type: %s" % Enums.HitType.keys()[hit_type])
-	
 	if hit_type in [Enums.HitType.PERFECT, Enums.HitType.GOOD_EARLY, Enums.HitType.GOOD_LATE]:
-		if debug_logs:
-			print("[WeaponManager] ✓ Calling current_weapon.attack()")
-		
 		current_weapon.attack(hit_type)
 		weapon_fired.emit(current_weapon, hit_type)
 		return true
 	else:
-		if debug_logs:
-			print("[WeaponManager] ❌ Rhythm miss")
 		current_weapon.on_missed_beat()
 		return false
-
 
 func get_weapon(weapon_type: Enums.WeaponType) -> Weapon:
 	return weapons.get(weapon_type, null)

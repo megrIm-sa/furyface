@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://cddfptgnqtnjf"]
+[gd_scene load_steps=13 format=3 uid="uid://cddfptgnqtnjf"]
 
 [ext_resource type="Script" uid="uid://cbdjxvq7h27s7" path="res://entities/player/player.gd" id="1_sglur"]
 [ext_resource type="Texture2D" uid="uid://6j3dqa0ik7lx" path="res://entities/player/sprites/shadow.png" id="2_bls4j"]
 [ext_resource type="Texture2D" uid="uid://cjowmeicmnc6x" path="res://entities/player/sprites/idle_down.png" id="3_fkugw"]
 [ext_resource type="Script" uid="uid://fcytit1klfdq" path="res://entities/player/weapon_manager.gd" id="4_bls4j"]
 [ext_resource type="PackedScene" uid="uid://bctmwk7gxteft" path="res://weapon/blade/blade.tscn" id="5_fkugw"]
+[ext_resource type="Script" uid="uid://dr2t5sppc2vjs" path="res://ui/dash_cooldown_indicator/dash_cooldown_indicator.gd" id="6_8fjmc"]
 
 [sub_resource type="Animation" id="Animation_vnv7o"]
 length = 0.001
@@ -71,6 +72,22 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ta7ci"]
 size = Vector2(10, 15)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fjmc"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qiwj3"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 0.4)
+corner_detail = 6
+
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 10
 script = ExtResource("1_sglur")
@@ -101,3 +118,39 @@ script = ExtResource("4_bls4j")
 blade_scene = ExtResource("5_fkugw")
 
 [node name="WeaponContainer" type="Node2D" parent="WeaponManager"]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = 22.0
+offset_right = 23.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(23, 2)
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="DashCooldownIndicator" type="ProgressBar" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_8fjmc")
+theme_override_styles/fill = SubResource("StyleBoxFlat_qiwj3")
+fill_mode = 1
+show_percentage = false
+script = ExtResource("6_8fjmc")
+
+[node name="DashCooldownIndicator2" type="ProgressBar" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_8fjmc")
+theme_override_styles/fill = SubResource("StyleBoxFlat_qiwj3")
+show_percentage = false
+script = ExtResource("6_8fjmc")
