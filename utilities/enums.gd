@@ -13,3 +13,8 @@ enum HitType {
 	GOOD_LATE,
 	MISS_LATE,
 }
+
+enum WeaponType {
+	BLADE,
+	REVOLVERS
+}

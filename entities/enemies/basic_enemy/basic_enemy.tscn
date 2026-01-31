@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://dq1s3av4acd4j"]
+
+[ext_resource type="Texture2D" uid="uid://c1cw5jwvebnw" path="res://icon.svg" id="1_gomqg"]
+[ext_resource type="Script" uid="uid://ckrqdrewqtu40" path="res://entities/enemies/basic_enemy/basic_enemy.gd" id="1_plvsb"]
+[ext_resource type="Script" uid="uid://dsj23kn1ilg7a" path="res://resources/enemies/enemy_resource.gd" id="2_fmpxo"]
+
+[sub_resource type="Resource" id="Resource_fi0h5"]
+script = ExtResource("2_fmpxo")
+scale_size = 0.25
+metadata/_custom_type_script = "uid://dsj23kn1ilg7a"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gomqg"]
+size = Vector2(32, 32)
+
+[node name="BasicEnemy" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 2
+script = ExtResource("1_plvsb")
+enemy_data = SubResource("Resource_fi0h5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_gomqg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gomqg")

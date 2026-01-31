@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=2 format=3 uid="uid://ca6yi6f71muif"]
+
+[ext_resource type="Script" uid="uid://rjcqw2l6eg2j" path="res://resources/weapons/weapon_resource.gd" id="1_pypiu"]
+
+[resource]
+script = ExtResource("1_pypiu")
+attack_cooldown = 0.2
+metadata/_custom_type_script = "uid://rjcqw2l6eg2j"

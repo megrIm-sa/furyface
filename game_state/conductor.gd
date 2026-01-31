@@ -52,6 +52,9 @@ var _filtered_audio_system_delta: float = 0
 # Virtual offset for seamless looping and track changes
 var _virtual_time_offset: float = 0.0
 
+func _enter_tree():
+	add_to_group("conductor")
+
 func _ready() -> void:
 	# Ensure that playback state is always updating, otherwise the smoothing
 	# filter causes issues.
