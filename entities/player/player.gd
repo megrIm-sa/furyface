@@ -25,14 +25,15 @@ func _physics_process(delta):
 	var note_manager : NoteManager = get_tree().get_first_node_in_group("note_manager")
 	if note_manager:
 		if Input.is_action_just_pressed("dash"):
-			var hit_type : Enums.HitType = note_manager.resolve_hit(0)  # spawner_index 0 для dash
+			var hit_type : Enums.HitType = note_manager.resolve_hit()
 			print("dash:", hit_type)
 			_start_dash(hit_type in [Enums.HitType.PERFECT, Enums.HitType.GOOD_EARLY, Enums.HitType.GOOD_LATE])
 		
 		if Input.is_action_just_pressed("shoot"):
-			var hit_type : Enums.HitType = note_manager.resolve_hit(1)  # spawner_index 1 для shoot
+			var hit_type : Enums.HitType = note_manager.resolve_hit()
 			print("shoot:", hit_type)
 			# Здесь добавь логику shoot, если успех: if hit_type in [ PERFECT, GOOD_* ]
+		#print("------------")
 	
 	match state:
 		State.IDLE:
