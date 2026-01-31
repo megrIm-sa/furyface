@@ -3,6 +3,7 @@ extends TextureRect
 
 var beat: float = 0.0
 var conductor: Conductor
+var consumed: bool = false
 var _speed: float
 var _movement_paused := false
 var _song_time_delta := 0.0
@@ -18,21 +19,8 @@ func _ready() -> void:
 		func(s): _speed = s
 	)
 
-func activate(new_beat: float, new_conductor: Conductor) -> void:
-	beat = new_beat
-	conductor = new_conductor
-	_movement_paused = false
-	modulate = Color(1, 1, 1, 1)  # Полная видимость
-	visible = true
-	scale = Vector2.ONE
-
-func reset() -> void:
-	visible = false
-	_movement_paused = true
-	modulate.a = 1.0  # Сброс для следующего актива
-
 func update_beat(curr_beat: float) -> void:
-	if _movement_paused:
+	if consumed or _movement_paused:
 		return
 	_song_time_delta = (curr_beat - beat) * conductor.get_beat_duration()
 	
@@ -43,6 +31,7 @@ func update_beat(curr_beat: float) -> void:
 	
 	_update_position()
 
+# Остальные методы без изменений (hit_perfect, hit_good, miss, _play_hit, _play_fade, _update_position)
 func hit_perfect() -> void:
 	_play_hit(Color.YELLOW, 1.5)
 
@@ -59,13 +48,21 @@ func _play_hit(color: Color, scale_mul: float) -> void:
 	var t := create_tween()
 	t.parallel().tween_property(self, "modulate:a", 0, 0.2)
 	t.parallel().tween_property(self, "scale", Vector2.ONE * scale_mul, 0.2)
-	t.tween_callback(reset)
+	t.tween_callback(_on_visual_complete)
 
 func _play_fade(color: Color, time: float) -> void:
 	modulate = Color(color.r, color.g, color.b, 1.0)
 	var t := create_tween()
 	t.tween_property(self, "modulate:a", 0, time)
-	t.tween_callback(reset)
+	t.tween_callback(_on_visual_complete)
+
+func _on_visual_complete() -> void:
+	reset()
+
+func reset() -> void:
+	visible = false
+	_movement_paused = true
+	modulate.a = 1.0  # Сброс для следующего актива
 
 func _update_position() -> void:
 	var displacement: float

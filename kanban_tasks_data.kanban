@@ -31,7 +31,6 @@
 			"uuid": "fa561c51-a5a7-45c0-ba48-4b9ee2e58dc5",
 			"title": "TODO",
 			"tasks": [
-				"8931433d-562f-4e89-91e9-3f8c23a4ffaf",
 				"fa0ee3b8-aa7c-40eb-be29-d853c84b0810",
 				"a49a4dd1-9b96-408c-86b9-aa3b4d790cc9",
 				"b947e0f4-9c7d-463d-ba56-91fa2389b72e",
@@ -63,7 +62,10 @@
 		{
 			"uuid": "c7f8fdd0-bb0c-4f48-9aa2-1c3af1d19707",
 			"title": "In progress",
-			"tasks": []
+			"tasks": [
+				"e453388d-fcdc-47aa-ac18-6eecf43b1321",
+				"8931433d-562f-4e89-91e9-3f8c23a4ffaf"
+			]
 		},
 		{
 			"uuid": "31f4fdb4-a062-4e27-b6d0-4dcff23213cd",
@@ -276,6 +278,13 @@
 			"title": "Добавить красивые тени, отражающие силуэт перса",
 			"description": "",
 			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "e453388d-fcdc-47aa-ac18-6eecf43b1321",
+			"title": "TileSet",
+			"description": "",
+			"category": "73308e09-2084-4de2-a2d0-424eda7ae5af",
 			"steps": []
 		}
 	],
