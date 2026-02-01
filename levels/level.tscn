@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://bbrew8mi5empu"]
+[gd_scene load_steps=16 format=4 uid="uid://bbrew8mi5empu"]
 
 [ext_resource type="Texture2D" uid="uid://crwovwischbym" path="res://ui/health_bar/circle.png" id="1_80vhd"]
 [ext_resource type="Script" uid="uid://blayqdkambb0r" path="res://levels/level.gd" id="1_pb8y7"]
@@ -14,7 +14,6 @@
 [ext_resource type="Texture2D" uid="uid://3pxlsvabsbg5" path="res://ui/cursor/crosshair.png" id="8_mxp4k"]
 [ext_resource type="Script" uid="uid://ck74r7rhosput" path="res://game_state/note_manager.gd" id="9_rtcij"]
 [ext_resource type="AudioStream" uid="uid://bhacajhonb8o7" path="res://sound/music/pattern.ogg" id="10_pb8y7"]
-[ext_resource type="PackedScene" uid="uid://dq1s3av4acd4j" path="res://entities/enemies/basic_enemy/basic_enemy.tscn" id="15_0qmeg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5mrsh"]
 shader = ExtResource("4_safpt")
@@ -39,9 +38,6 @@ stream = ExtResource("10_pb8y7")
 [node name="Conductor" type="Node" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("8_d5x7l")
 player = NodePath("../AudioStreamPlayer")
-
-[node name="BasicEnemy" parent="." instance=ExtResource("15_0qmeg")]
-position = Vector2(-161, -14)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

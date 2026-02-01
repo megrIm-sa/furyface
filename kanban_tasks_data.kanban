@@ -31,15 +31,14 @@
 			"uuid": "fa561c51-a5a7-45c0-ba48-4b9ee2e58dc5",
 			"title": "TODO",
 			"tasks": [
-				"b947e0f4-9c7d-463d-ba56-91fa2389b72e",
-				"d94f8fba-af65-4e05-82bd-160e1d685948",
-				"24e13a3a-67d2-4f15-9ef7-529d34b4efd7",
-				"49215122-39ba-4a5a-b689-6c374d24c749",
 				"7f284f62-6b66-4ed5-a270-532895d5c7e4",
 				"a3d1daeb-7dc3-4267-89ea-8462eae6212f",
 				"e2f84555-0ca7-4017-b2f6-52eaa9ec526b",
+				"d94f8fba-af65-4e05-82bd-160e1d685948",
+				"49215122-39ba-4a5a-b689-6c374d24c749",
 				"f76d0027-d26f-4cae-9e20-f687900974bc",
 				"d7c7eb5f-c91b-4f1b-964a-fbacf4e4b57b",
+				"24e13a3a-67d2-4f15-9ef7-529d34b4efd7",
 				"b998beae-22c3-4ba4-b547-d2f0536a7d47",
 				"7b7ad2ad-3bd2-4033-b370-9b13da9c52e0",
 				"566c653a-5f8c-4f81-a6ed-eeb19eabfe3c",
@@ -59,9 +58,9 @@
 			"uuid": "c7f8fdd0-bb0c-4f48-9aa2-1c3af1d19707",
 			"title": "In progress",
 			"tasks": [
-				"a49a4dd1-9b96-408c-86b9-aa3b4d790cc9",
 				"d320f25c-e394-4018-a0ed-7a1e8425895c",
-				"ff33a245-e2fc-4b11-be0a-f9d2b6b326a1"
+				"ff33a245-e2fc-4b11-be0a-f9d2b6b326a1",
+				"b947e0f4-9c7d-463d-ba56-91fa2389b72e"
 			]
 		},
 		{
@@ -72,7 +71,8 @@
 				"5990bfae-8206-4436-8bb3-8ef6e0894aa4",
 				"8931433d-562f-4e89-91e9-3f8c23a4ffaf",
 				"fa0ee3b8-aa7c-40eb-be29-d853c84b0810",
-				"e453388d-fcdc-47aa-ac18-6eecf43b1321"
+				"e453388d-fcdc-47aa-ac18-6eecf43b1321",
+				"a49a4dd1-9b96-408c-86b9-aa3b4d790cc9"
 			]
 		}
 	],

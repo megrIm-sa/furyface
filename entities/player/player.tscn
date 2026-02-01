@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cddfptgnqtnjf"]
+[gd_scene load_steps=15 format=3 uid="uid://cddfptgnqtnjf"]
 
 [ext_resource type="Script" uid="uid://cbdjxvq7h27s7" path="res://entities/player/player.gd" id="1_sglur"]
 [ext_resource type="Texture2D" uid="uid://6j3dqa0ik7lx" path="res://entities/player/sprites/shadow.png" id="2_bls4j"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://fcytit1klfdq" path="res://entities/player/weapon_manager.gd" id="4_bls4j"]
 [ext_resource type="PackedScene" uid="uid://bctmwk7gxteft" path="res://weapon/blade/blade.tscn" id="5_fkugw"]
 [ext_resource type="Script" uid="uid://dr2t5sppc2vjs" path="res://ui/dash_cooldown_indicator/dash_cooldown_indicator.gd" id="6_8fjmc"]
+[ext_resource type="Script" uid="uid://b0ksli61si5vb" path="res://entities/player/hands.gd" id="7_qiwj3"]
 
 [sub_resource type="Animation" id="Animation_vnv7o"]
 length = 0.001
@@ -88,7 +89,11 @@ content_margin_bottom = 2.0
 bg_color = Color(1, 1, 1, 0.4)
 corner_detail = 6
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_qiwj3"]
+size = Vector2(4, 4)
+
 [node name="Player" type="CharacterBody2D"]
+y_sort_enabled = true
 collision_mask = 10
 script = ExtResource("1_sglur")
 
@@ -100,6 +105,7 @@ modulate = Color(1, 1, 1, 0.39215687)
 texture = ExtResource("2_bls4j")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
 texture = ExtResource("3_fkugw")
 hframes = 2
 
@@ -154,3 +160,20 @@ theme_override_styles/background = SubResource("StyleBoxFlat_8fjmc")
 theme_override_styles/fill = SubResource("StyleBoxFlat_qiwj3")
 show_percentage = false
 script = ExtResource("6_8fjmc")
+
+[node name="Hands" type="Node2D" parent="." node_paths=PackedStringArray("player")]
+position = Vector2(0, 5)
+script = ExtResource("7_qiwj3")
+player = NodePath("..")
+
+[node name="RightHand" type="Marker2D" parent="Hands"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Hands/RightHand"]
+visible = false
+texture = SubResource("PlaceholderTexture2D_qiwj3")
+
+[node name="LeftHand" type="Marker2D" parent="Hands"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Hands/LeftHand"]
+visible = false
+texture = SubResource("PlaceholderTexture2D_qiwj3")
