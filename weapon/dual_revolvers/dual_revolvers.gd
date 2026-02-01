@@ -124,6 +124,18 @@ func _spawn_bullet(damage: float, hit_type: Enums.HitType):
 		revolver_data.bullet_lifetime,
 		revolver_data.bullet_trail_color
 	)
+	
+	bullet.body_hit.connect(func(body): _on_body_hit(body, damage))
+
+
+func _on_body_hit(body, damage) -> void:
+	if weapon_manager:
+			var player = weapon_manager.player
+			if player and player.mask_ability:
+				var mask = player.mask_ability.current_mask
+				if mask and mask.is_active:
+					mask.on_weapon_hit_enemy(body, damage)
+
 
 func _get_shooting_direction() -> Vector2:
 	var mouse_pos = get_global_mouse_position()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://bbrew8mi5empu"]
+[gd_scene load_steps=22 format=4 uid="uid://bbrew8mi5empu"]
 
 [ext_resource type="Texture2D" uid="uid://crwovwischbym" path="res://ui/health_bar/circle.png" id="1_80vhd"]
 [ext_resource type="Script" uid="uid://blayqdkambb0r" path="res://levels/level.gd" id="1_pb8y7"]
@@ -16,6 +16,7 @@
 [ext_resource type="Shader" uid="uid://dupuwvrwc67la" path="res://shaders/combo_bar.gdshader" id="11_lh335"]
 [ext_resource type="Script" uid="uid://bitimivi3qh8s" path="res://masks/combo_bar.gd" id="11_ta7ci"]
 [ext_resource type="Script" uid="uid://cwv8la58h46vu" path="res://ui/revolver_ammo_ui.gd" id="15_ta7ci"]
+[ext_resource type="PackedScene" uid="uid://dq1s3av4acd4j" path="res://entities/enemies/basic_enemy/basic_enemy.tscn" id="17_lh335"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u6cys"]
 shader = ExtResource("8_lh335")
@@ -79,6 +80,9 @@ tile_set = ExtResource("3_ta7ci")
 
 [node name="Entities" type="Node2D" parent="."]
 y_sort_enabled = true
+
+[node name="BasicEnemy" parent="Entities" instance=ExtResource("17_lh335")]
+position = Vector2(81, -138)
 
 [node name="Player" parent="Entities" instance=ExtResource("4_d7v53")]
 collision_mask = 26

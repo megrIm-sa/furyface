@@ -13,6 +13,17 @@ func _ready():
 	mask_type = Enums.MaskType.RAGE
 	description = "Increases weapon damage when combo is maxed"
 	activation_color = Color(1.0, 0.2, 0.2, 1.0)
+	
+	# Настройки визуального круга
+	use_visual_circle = true
+	circle_radius = 8.0
+	circle_color = Color(1.0, 0.2, 0.2, 0.25)  # Красный полупрозрачный
+	circle_outline_color = Color(1.0, 0.4, 0.2, 0.7)  # Оранжевый контур
+	circle_outline_width = 4.0
+	circle_pulse_speed = 2.5
+	circle_pulse_min = 0.92
+	circle_pulse_max = 1.08
+	circle_pulse_alpha = true
 
 func _on_activate():
 	_apply_damage_boost()
@@ -62,7 +73,7 @@ func _remove_damage_boost():
 	original_damage_modifiers.clear()
 
 func _apply_visual_effects():
-	"""Применяет визуальные эффекты маски"""
+	"""Визуальные эффекты активации"""
 	if not ability_manager or not ability_manager.player:
 		return
 	

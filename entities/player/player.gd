@@ -286,6 +286,7 @@ func _get_input_direction() -> Vector2:
 	)
 	return dir.normalized()
 
+
 # ============= DAMAGE SYSTEM =============
 func take_damage(amount: float, source_position: Vector2, knockback_direction: Vector2 = Vector2.ZERO):
 	if is_invulnerable or is_dead:

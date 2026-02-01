@@ -191,6 +191,7 @@ _data = {
 
 [node name="RectangleEnemy" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 2
+collision_mask = 17
 script = ExtResource("1_16fb4")
 enemy_data = SubResource("Resource_67sed")
 

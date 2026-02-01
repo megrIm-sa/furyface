@@ -117,6 +117,11 @@ func _perform_slash(direction: Vector2, damage: float, blade_data: BladeResource
 		if body.has_method("take_damage") and _is_in_slash_arc(body, direction, blade_data.slash_arc):
 			var knockback_velocity = direction.normalized() * blade_data.knockback_force
 			body.take_damage(damage, global_position, knockback_velocity)
+			
+			if weapon_manager and weapon_manager.player and weapon_manager.player.mask_ability:
+				var mask = weapon_manager.player.mask_ability.current_mask
+				if mask and mask.is_active:
+					mask.on_weapon_hit_enemy(body, damage)
 	
 	attack_area.monitoring = false
 

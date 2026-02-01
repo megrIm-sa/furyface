@@ -2,6 +2,8 @@
 class_name Bullet
 extends Area2D
 
+signal body_hit(body)
+
 var velocity: Vector2
 var damage: float
 var lifetime: float = 0.1
@@ -94,7 +96,7 @@ func _on_body_entered(body):
 		# Направление отдачи
 		var knockback = velocity.normalized() * 100.0
 		body.take_damage(damage, global_position, knockback)
-	
+		body_hit.emit(body)
 	# Эффект попадания
 	_spawn_impact_effect()
 	

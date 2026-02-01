@@ -29,9 +29,12 @@ func _on_ready():
 		anim.play("idle")
 
 func _process_state(delta: float):
-	if not enemy_data:
+	# Сначала проверяем страх
+	if state == State.FEAR:
+		_state_fear(delta)  # Вызывается метод из базового класса
 		return
 	
+	# Остальная логика состояний
 	match state:
 		State.IDLE:
 			_state_idle(delta)

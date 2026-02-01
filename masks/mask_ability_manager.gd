@@ -18,7 +18,10 @@ signal ability_deactivated()
 
 @export_group("Starting Mask")
 @export var starting_mask_scene: PackedScene
-
+var mask_scenes: Dictionary = {
+	Enums.MaskType.RAGE: preload("res://masks/rage_mask.tscn"),
+	Enums.MaskType.FEAR: preload("res://masks/fear_mask.tscn")  # НОВОЕ
+}
 var player: Player
 var current_combo: float = 0.0
 var current_mask: BaseMask
@@ -79,6 +82,16 @@ func remove_combo(amount: float):
 		_check_combo_thresholds()
 	
 	print("[MaskAbility] Combo: %.1f / %.1f (-%.1f)" % [current_combo, max_combo, amount])
+
+
+func switch_mask(mask_type: Enums.MaskType):
+	"""Переключает маску на указанный тип"""
+	if mask_type in mask_scenes:
+		var mask_scene = mask_scenes[mask_type]
+		equip_mask_scene(mask_scene)
+	else:
+		push_warning("MaskAbilityManager: No scene for mask type %s" % Enums.MaskType.keys()[mask_type])
+
 
 func _check_combo_thresholds():
 	"""Проверяет достижение максимального комбо"""

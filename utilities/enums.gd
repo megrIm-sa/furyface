@@ -20,6 +20,6 @@ enum WeaponType {
 }
 
 enum MaskType {
-	RAGE,      # Маска ярости - увеличивает урон
-
+	RAGE = 0,
+	FEAR = 1,
 }

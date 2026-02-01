@@ -358,11 +358,13 @@ script = ExtResource("1_sglur")
 zoom = Vector2(3, 3)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
 y_sort_enabled = true
 texture = ExtResource("3_26q78")
 hframes = 8
 
 [node name="MaskSprite2D" type="Sprite2D" parent="."]
+z_index = 1
 y_sort_enabled = true
 texture = ExtResource("3_wvtmh")
 hframes = 8
@@ -378,6 +380,7 @@ position = Vector2(0, 9)
 shape = SubResource("RectangleShape2D_ta7ci")
 
 [node name="MaskAbilityManager" type="Node2D" parent="."]
+position = Vector2(0, 13)
 script = ExtResource("8_j3ovn")
 min_ability_duration = 3.0
 starting_mask_scene = ExtResource("9_afbqv")
