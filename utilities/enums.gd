@@ -18,3 +18,8 @@ enum WeaponType {
 	BLADE = 0,
 	REVOLVERS = 1,
 }
+
+enum MaskType {
+	RAGE,      # Маска ярости - увеличивает урон
+
+}

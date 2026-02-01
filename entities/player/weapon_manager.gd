@@ -104,13 +104,28 @@ func try_attack(note_manager: NoteManager) -> bool:
 	
 	var hit_type: Enums.HitType = note_manager.resolve_hit()
 	
+	# Успешные атаки: PERFECT, GOOD_EARLY, GOOD_LATE
 	if hit_type in [Enums.HitType.PERFECT, Enums.HitType.GOOD_EARLY, Enums.HitType.GOOD_LATE]:
 		current_weapon.attack(hit_type)
 		weapon_fired.emit(current_weapon, hit_type)
+		
+		# Уведомляем mask ability о попадании
+		if player.mask_ability:
+			var damage = current_weapon.weapon_data.base_damage if current_weapon.weapon_data else 0.0
+			player.mask_ability.on_weapon_hit(hit_type, damage)
+		
 		return true
+	
+	# Промахи: MISS_EARLY, MISS_LATE
 	else:
 		current_weapon.on_missed_beat()
+		
+		# Уведомляем о промахе
+		if player.mask_ability:
+			player.mask_ability.on_weapon_hit(hit_type, 0.0)
+		
 		return false
+		
 
 func try_reload() -> bool:
 	"""Пытается перезарядить текущее оружие"""

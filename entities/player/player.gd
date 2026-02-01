@@ -21,6 +21,7 @@ extends CharacterBody2D
 @onready var mask_sprite: Sprite2D = $MaskSprite2D
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var weapon_manager: WeaponManager = $WeaponManager
+@onready var mask_ability: MaskAbilityManager = $MaskAbilityManager
 
 enum State { IDLE, WALK, DASH, DEAD }
 var state: State = State.IDLE
@@ -46,16 +47,31 @@ signal dash_cooldown_changed(current: float, maximum: float)
 func _enter_tree() -> void:
 	add_to_group("player")
 
+# В res://scripts/player/player.gd
 func _ready():
 	current_health = max_health
 	
 	conductor = get_tree().get_first_node_in_group("conductor")
 	if not conductor:
-		push_warning("Player: Conductor not found! Dash cooldown may not work correctly.")
+		push_warning("Player: Conductor not found!")
 	
-	# Запускаем начальную анимацию
 	if anim and anim.has_animation("idle"):
 		anim.play("idle")
+	
+	await get_tree().process_frame
+	health_changed.emit(current_health, max_health)
+	
+	# Подключаемся к сигналам mask ability
+	if mask_ability:
+		mask_ability.combo_max_reached.connect(_on_combo_max_reached)
+		mask_ability.combo_lost.connect(_on_combo_lost)
+
+func _on_combo_max_reached():
+	print("[Player] COMBO MAXED! Ability activated!")
+
+func _on_combo_lost():
+	print("[Player] Combo lost. Ability deactivated.")
+
 
 func _physics_process(delta):
 	if is_dead:
