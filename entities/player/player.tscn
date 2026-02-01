@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cddfptgnqtnjf"]
+[gd_scene load_steps=16 format=3 uid="uid://cddfptgnqtnjf"]
 
 [ext_resource type="Script" uid="uid://cbdjxvq7h27s7" path="res://entities/player/player.gd" id="1_sglur"]
 [ext_resource type="Texture2D" uid="uid://6j3dqa0ik7lx" path="res://entities/player/sprites/shadow.png" id="2_bls4j"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://fcytit1klfdq" path="res://entities/player/weapon_manager.gd" id="4_bls4j"]
 [ext_resource type="PackedScene" uid="uid://bctmwk7gxteft" path="res://weapon/blade/blade.tscn" id="5_fkugw"]
 [ext_resource type="Script" uid="uid://dr2t5sppc2vjs" path="res://ui/dash_cooldown_indicator/dash_cooldown_indicator.gd" id="6_8fjmc"]
+[ext_resource type="PackedScene" uid="uid://3prksn7yqcb8" path="res://weapon/dual_revolvers/revolver.tscn" id="6_26q78"]
 [ext_resource type="Script" uid="uid://b0ksli61si5vb" path="res://entities/player/hands.gd" id="7_qiwj3"]
 
 [sub_resource type="Animation" id="Animation_vnv7o"]
@@ -120,8 +121,10 @@ position = Vector2(0, 10.5)
 shape = SubResource("RectangleShape2D_ta7ci")
 
 [node name="WeaponManager" type="Node2D" parent="."]
+position = Vector2(0, 5)
 script = ExtResource("4_bls4j")
 blade_scene = ExtResource("5_fkugw")
+revolvers_scene = ExtResource("6_26q78")
 
 [node name="WeaponContainer" type="Node2D" parent="WeaponManager"]
 

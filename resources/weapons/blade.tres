@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_pypiu")
 slash_animation_duration = 0.3
+weapon_name = "Blade"
 attack_cooldown = 0.2
 range = 32.0
 icon = ExtResource("1_mwi6c")

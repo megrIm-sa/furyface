@@ -137,10 +137,12 @@ func _on_activated():
 		visuals.visible = true
 	if debug_draw:
 		queue_redraw()
+	print("Blade visuals activated")
 
 func _on_deactivated():
 	if visuals:
 		visuals.visible = false
+	print("Blade visuals deactivated")
 
 func _draw():
 	if not debug_draw or not is_active or not weapon_data:

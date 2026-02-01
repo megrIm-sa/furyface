@@ -15,6 +15,6 @@ enum HitType {
 }
 
 enum WeaponType {
-	BLADE,
-	REVOLVERS
+	BLADE = 0,
+	REVOLVERS = 1,
 }

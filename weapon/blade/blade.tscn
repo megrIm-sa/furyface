@@ -5,6 +5,7 @@
 [ext_resource type="Resource" uid="uid://cyiqtlyuqlpbr" path="res://resources/weapons/blade.tres" id="2_ib8qa"]
 
 [node name="Blade" type="Node2D"]
+visible = false
 script = ExtResource("1_eny6w")
 debug_draw = false
 blade_visual_scene = ExtResource("2_dhd1i")

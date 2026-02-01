@@ -1,3 +1,4 @@
+# res://scripts/weapons/weapon_manager.gd
 class_name WeaponManager
 extends Node2D
 
@@ -21,6 +22,10 @@ func _ready():
 	assert(player != null, "WeaponManager must be child of Player")
 	
 	_initialize_weapons()
+	
+	# Небольшая задержка перед активацией стартового оружия
+	# чтобы все узлы успели инициализироваться
+	await get_tree().process_frame
 	switch_weapon(starting_weapon)
 
 func _initialize_weapons():
@@ -30,42 +35,49 @@ func _initialize_weapons():
 		if blade:
 			blade.weapon_manager = self
 			weapon_container.add_child(blade)
-			# Проверяем, что у оружия есть weapon_data и weapon_type
+			
 			if blade.weapon_data:
 				weapons[blade.weapon_data.weapon_type] = blade
+				blade.is_active = false  # Явно устанавливаем неактивным
 			else:
 				push_warning("WeaponManager: Blade weapon_data not assigned!")
 	else:
 		push_warning("WeaponManager: blade_scene not assigned!")
 	
-	# Revolvers (когда реализуете)
+	# Revolvers
 	if revolvers_scene:
 		var revolvers = revolvers_scene.instantiate() as Weapon
 		if revolvers:
 			revolvers.weapon_manager = self
 			weapon_container.add_child(revolvers)
+			
 			if revolvers.weapon_data:
 				weapons[revolvers.weapon_data.weapon_type] = revolvers
+				revolvers.is_active = false  # Явно устанавливаем неактивным
 			else:
 				push_warning("WeaponManager: Revolvers weapon_data not assigned!")
+	else:
+		push_warning("WeaponManager: revolvers_scene not assigned!")
 	
-	# Скрываем все оружия
+	# Деактивируем все оружия через их методы
 	for weapon in weapons.values():
-		weapon.visible = false
-		weapon.set_physics_process(false)
+		weapon.deactivate()
+		print("Deactivated weapon: ", weapon.name)
 
 func switch_weapon(weapon_type: Enums.WeaponType):
-	# Проверяем текущее оружие через weapon_data
+	# Проверяем текущее оружие
 	if current_weapon and current_weapon.weapon_data and current_weapon.weapon_data.weapon_type == weapon_type:
 		return
 	
 	# Деактивируем текущее
 	if current_weapon:
+		print("Deactivating: ", current_weapon.weapon_data.weapon_name)
 		current_weapon.deactivate()
 	
 	# Активируем новое
 	if weapon_type in weapons:
 		current_weapon = weapons[weapon_type]
+		print("Activating: ", current_weapon.weapon_data.weapon_name)
 		current_weapon.activate()
 		weapon_switched.emit(weapon_type)
 	else:

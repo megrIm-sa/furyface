@@ -15,10 +15,18 @@ var total_attacks: int = 0
 var perfect_hits: int = 0
 
 func _ready():
-	if weapon_data:
-		_initialize_upgrade_branches()
-	else:
-		push_warning("%s: weapon_data not assigned!" % name)
+	if not weapon_data:
+		push_warning("Weapon %s: weapon_data not assigned!" % name)
+		return
+	
+	_initialize_upgrade_branches()
+	
+	# Убеждаемся что оружие не активно при создании
+	is_active = false
+	visible = false
+	set_physics_process(false)
+	
+	print("Weapon initialized: ", weapon_data.weapon_name, " - Active: ", is_active, " - Visible: ", visible)
 
 func _initialize_upgrade_branches():
 	var branch_1 = UpgradeBranch.new(weapon_data.branch_1_name, weapon_data.max_upgrade_level)
@@ -27,16 +35,32 @@ func _initialize_upgrade_branches():
 	upgrade_branches.append(branch_2)
 
 func activate():
+	if is_active:
+		return
+	
 	is_active = true
 	visible = true
 	set_physics_process(true)
 	_on_activated()
+	print("Weapon activated: ", weapon_data.weapon_name if weapon_data else name)
 
 func deactivate():
+	if not is_active:
+		return
+	
 	is_active = false
 	visible = false
 	set_physics_process(false)
 	_on_deactivated()
+	print("Weapon deactivated: ", weapon_data.weapon_name if weapon_data else name)
+
+func _on_activated():
+	# Переопределяется в дочерних классах
+	pass
+
+func _on_deactivated():
+	# Переопределяется в дочерних классах
+	pass
 
 func can_attack() -> bool:
 	return is_active and cooldown_timer <= 0.0
@@ -109,11 +133,6 @@ func _get_cooldown_multiplier() -> float:
 		multiplier *= branch.get_cooldown_modifier()
 	return multiplier
 
-func _on_activated():
-	pass
-
-func _on_deactivated():
-	pass
 
 class UpgradeBranch:
 	var branch_name: String
