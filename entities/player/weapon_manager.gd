@@ -22,62 +22,77 @@ func _ready():
 	assert(player != null, "WeaponManager must be child of Player")
 	
 	_initialize_weapons()
-	
-	# Небольшая задержка перед активацией стартового оружия
-	# чтобы все узлы успели инициализироваться
-	await get_tree().process_frame
 	switch_weapon(starting_weapon)
 
+func _input(event):
+	# Обработка ручной перезарядки
+	if event.is_action_pressed("reload"):
+		try_reload()
+
 func _initialize_weapons():
+	print("=== Initializing Weapons ===")
+	
 	# Blade
 	if blade_scene:
+		print("Loading Blade scene...")
 		var blade = blade_scene.instantiate() as Blade
 		if blade:
 			blade.weapon_manager = self
 			weapon_container.add_child(blade)
 			
 			if blade.weapon_data:
+				print("Blade weapon_data found: ", blade.weapon_data.weapon_name)
+				print("Blade weapon_type: ", blade.weapon_data.weapon_type)
 				weapons[blade.weapon_data.weapon_type] = blade
-				blade.is_active = false  # Явно устанавливаем неактивным
+				blade.is_active = false
 			else:
 				push_warning("WeaponManager: Blade weapon_data not assigned!")
+		else:
+			push_warning("WeaponManager: Failed to instantiate Blade!")
 	else:
 		push_warning("WeaponManager: blade_scene not assigned!")
 	
 	# Revolvers
 	if revolvers_scene:
-		var revolvers = revolvers_scene.instantiate() as Weapon
+		print("Loading Revolvers scene...")
+		var revolvers = revolvers_scene.instantiate() as DualRevolvers
 		if revolvers:
 			revolvers.weapon_manager = self
 			weapon_container.add_child(revolvers)
 			
 			if revolvers.weapon_data:
+				print("Revolvers weapon_data found: ", revolvers.weapon_data.weapon_name)
+				print("Revolvers weapon_type: ", revolvers.weapon_data.weapon_type)
 				weapons[revolvers.weapon_data.weapon_type] = revolvers
-				revolvers.is_active = false  # Явно устанавливаем неактивным
+				revolvers.is_active = false
 			else:
 				push_warning("WeaponManager: Revolvers weapon_data not assigned!")
+		else:
+			push_warning("WeaponManager: Failed to instantiate Revolvers!")
 	else:
 		push_warning("WeaponManager: revolvers_scene not assigned!")
 	
-	# Деактивируем все оружия через их методы
+	print("Total weapons loaded: ", weapons.size())
+	print("Available weapon types: ", weapons.keys())
+	
+	# Деактивируем все оружия
 	for weapon in weapons.values():
 		weapon.deactivate()
 		print("Deactivated weapon: ", weapon.name)
+	
+	print("=== Weapons Initialization Complete ===")
 
 func switch_weapon(weapon_type: Enums.WeaponType):
-	# Проверяем текущее оружие
 	if current_weapon and current_weapon.weapon_data and current_weapon.weapon_data.weapon_type == weapon_type:
 		return
 	
 	# Деактивируем текущее
 	if current_weapon:
-		print("Deactivating: ", current_weapon.weapon_data.weapon_name)
 		current_weapon.deactivate()
 	
 	# Активируем новое
 	if weapon_type in weapons:
 		current_weapon = weapons[weapon_type]
-		print("Activating: ", current_weapon.weapon_data.weapon_name)
 		current_weapon.activate()
 		weapon_switched.emit(weapon_type)
 	else:
@@ -96,6 +111,17 @@ func try_attack(note_manager: NoteManager) -> bool:
 	else:
 		current_weapon.on_missed_beat()
 		return false
+
+func try_reload() -> bool:
+	"""Пытается перезарядить текущее оружие"""
+	if not current_weapon:
+		return false
+	
+	# Проверяем, поддерживает ли оружие перезарядку
+	if current_weapon.has_method("manual_reload"):
+		return current_weapon.manual_reload()
+	
+	return false
 
 func get_weapon(weapon_type: Enums.WeaponType) -> Weapon:
 	return weapons.get(weapon_type, null)

@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_pjo7t")
+bullet_speed = 1000.0
 weapon_name = "Revolver"
 weapon_type = 1
 attack_cooldown = 0.2

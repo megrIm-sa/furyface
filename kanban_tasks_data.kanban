@@ -31,6 +31,8 @@
 			"uuid": "fa561c51-a5a7-45c0-ba48-4b9ee2e58dc5",
 			"title": "TODO",
 			"tasks": [
+				"78d08d4a-4418-4709-ad71-27014099762d",
+				"43e0e6c4-b83b-43f7-9ebe-7155d85ed6cf",
 				"7f284f62-6b66-4ed5-a270-532895d5c7e4",
 				"a3d1daeb-7dc3-4267-89ea-8462eae6212f",
 				"e2f84555-0ca7-4017-b2f6-52eaa9ec526b",
@@ -58,9 +60,7 @@
 			"uuid": "c7f8fdd0-bb0c-4f48-9aa2-1c3af1d19707",
 			"title": "In progress",
 			"tasks": [
-				"d320f25c-e394-4018-a0ed-7a1e8425895c",
-				"ff33a245-e2fc-4b11-be0a-f9d2b6b326a1",
-				"b947e0f4-9c7d-463d-ba56-91fa2389b72e"
+				"bec3e22d-d3e2-4edc-b51c-007fa94ad75b"
 			]
 		},
 		{
@@ -72,7 +72,10 @@
 				"8931433d-562f-4e89-91e9-3f8c23a4ffaf",
 				"fa0ee3b8-aa7c-40eb-be29-d853c84b0810",
 				"e453388d-fcdc-47aa-ac18-6eecf43b1321",
-				"a49a4dd1-9b96-408c-86b9-aa3b4d790cc9"
+				"a49a4dd1-9b96-408c-86b9-aa3b4d790cc9",
+				"d320f25c-e394-4018-a0ed-7a1e8425895c",
+				"ff33a245-e2fc-4b11-be0a-f9d2b6b326a1",
+				"b947e0f4-9c7d-463d-ba56-91fa2389b72e"
 			]
 		}
 	],
@@ -285,6 +288,27 @@
 			"title": "TileSet",
 			"description": "",
 			"category": "73308e09-2084-4de2-a2d0-424eda7ae5af",
+			"steps": []
+		},
+		{
+			"uuid": "bec3e22d-d3e2-4edc-b51c-007fa94ad75b",
+			"title": "Отображение патронов и перезарядки",
+			"description": "",
+			"category": "1ab8fabb-0df3-4ad8-85f9-37e72c3408f7",
+			"steps": []
+		},
+		{
+			"uuid": "78d08d4a-4418-4709-ad71-27014099762d",
+			"title": "Обычный Враг",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
+			"steps": []
+		},
+		{
+			"uuid": "43e0e6c4-b83b-43f7-9ebe-7155d85ed6cf",
+			"title": "Стреляющий враг",
+			"description": "",
+			"category": "d524a146-00bc-43a8-b4c8-42aa67a67aa1",
 			"steps": []
 		}
 	],

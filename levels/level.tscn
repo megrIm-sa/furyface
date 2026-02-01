@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://bbrew8mi5empu"]
+[gd_scene load_steps=20 format=4 uid="uid://bbrew8mi5empu"]
 
 [ext_resource type="Texture2D" uid="uid://crwovwischbym" path="res://ui/health_bar/circle.png" id="1_80vhd"]
 [ext_resource type="Script" uid="uid://blayqdkambb0r" path="res://levels/level.gd" id="1_pb8y7"]
@@ -15,11 +15,38 @@
 [ext_resource type="Script" uid="uid://ck74r7rhosput" path="res://game_state/note_manager.gd" id="9_rtcij"]
 [ext_resource type="AudioStream" uid="uid://bhacajhonb8o7" path="res://sound/music/pattern.ogg" id="10_pb8y7"]
 [ext_resource type="PackedScene" uid="uid://dq1s3av4acd4j" path="res://entities/enemies/basic_enemy/basic_enemy.tscn" id="15_0qmeg"]
+[ext_resource type="Script" uid="uid://cwv8la58h46vu" path="res://ui/revolver_ammo_ui.gd" id="15_ta7ci"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5mrsh"]
 shader = ExtResource("4_safpt")
 shader_parameter/amplitude = 12.0
 shader_parameter/color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ta7ci"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lh335"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 1, 1, 0.4)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_detail = 6
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_pb8y7")
@@ -134,6 +161,29 @@ offset_right = 38.0
 offset_bottom = 12.0
 grow_vertical = 2
 movement_direction = Vector2(-1, 0)
+
+[node name="RevolverAmmoBar" type="ProgressBar" parent="CanvasLayer/Control/Cursor"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = 13.0
+offset_right = 8.0
+offset_bottom = 19.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(24, 3)
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_ta7ci")
+theme_override_styles/fill = SubResource("StyleBoxFlat_lh335")
+max_value = 12.0
+step = 1.0
+fill_mode = 1
+show_percentage = false
+script = ExtResource("15_ta7ci")
 
 [node name="BasicEnemy" parent="." instance=ExtResource("15_0qmeg")]
 position = Vector2(-161, -54)
