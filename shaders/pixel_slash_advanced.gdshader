@@ -26,7 +26,7 @@ void fragment() {
 	float dist_from_center = abs(UV.y - 0.5) * 2.0;
 	
 	// Смешиваем цвета: яркий центр, более тёмные края
-	vec3 final_color = mix(core_color.rgb, edge_color.rgb, dist_from_center);
+	vec4 final_color = mix(core_color, edge_color, dist_from_center);
 	final_color *= edge_brightness;
 	
 	// Эффект "проявления" по времени
@@ -53,5 +53,5 @@ void fragment() {
 		discard;
 	}
 	
-	COLOR = vec4(final_color * color.rgb, alpha);
+	COLOR = vec4(final_color * color);
 }

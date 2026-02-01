@@ -5,14 +5,14 @@ extends Node2D
 @export var arc_angle: float = 90.0  # Угол конуса волны
 @export var max_distance: float = 80.0  # Максимальная дальность волны
 @export var wave_thickness: float = 12.0  # Толщина линии волны
-@export var wave_color: Color = Color(0.8, 0.9, 1.0, 0.8)
-@export var trail_color: Color = Color(0.5, 0.7, 1.0, 0.4)
+@export var wave_color: Color = Color(0.8, 0.9, 1.0, 0.5)
+@export var trail_color: Color = Color(0.5, 0.7, 1.0, 0.25)
 @export var lifetime: float = 0.2  # Длительность эффекта
 @export var wave_speed: float = 600.0  # Скорость распространения волны
 
 # Шейдер
 @export var use_pixelation: bool = true
-@export var pixel_size: float = 3.0
+@export var pixel_size: float = 8.0
 @export var shader_material: ShaderMaterial
 
 var time: float = 0.0
@@ -27,17 +27,17 @@ func _ready():
 		_setup_shader()
 
 func _setup_shader():
-	if not shader_material:
-		shader_material = ShaderMaterial.new()
-		var shader = load("res://shaders/pixel_slash_advanced.gdshader") as Shader
-		if shader:
-			shader_material.shader = shader
-			shader_material.set_shader_parameter("pixel_size", pixel_size)
-			shader_material.set_shader_parameter("edge_brightness", 2.0)
-			shader_material.set_shader_parameter("core_color", Color(1.0, 1.0, 1.0, 1.0))
-			shader_material.set_shader_parameter("edge_color", Color(0.3, 0.6, 1.0, 1.0))
-			shader_material.set_shader_parameter("dither_strength", 0.5)
-			shader_material.set_shader_parameter("time_progress", 0.0)
+	#if not shader_material:
+		#shader_material = ShaderMaterial.new()
+		#var shader = load("res://shaders/pixel_slash_advanced.gdshader") as Shader
+		#if shader:
+			#shader_material.shader = shader
+			#shader_material.set_shader_parameter("pixel_size", pixel_size)
+			#shader_material.set_shader_parameter("edge_brightness", 2.0)
+			#shader_material.set_shader_parameter("core_color", Color(1.0, 1.0, 1.0, 0.2))
+			#shader_material.set_shader_parameter("edge_color", Color(1.0, 1.0, 1.0, 0.4))
+			#shader_material.set_shader_parameter("dither_strength", .5)
+			#shader_material.set_shader_parameter("time_progress", 0.0)
 	
 	material = shader_material
 

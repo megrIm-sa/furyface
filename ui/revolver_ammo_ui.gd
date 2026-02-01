@@ -11,6 +11,9 @@ var current_total_ammo: int = 12
 var is_reloading: bool = false
 var reload_progress: float = 0.0
 
+# Perfect reload визуал
+var in_perfect_window: bool = false
+
 func _ready():
 	await get_tree().process_frame
 	
@@ -65,6 +68,8 @@ func _connect_to_revolvers(revolver_weapon: DualRevolvers):
 	revolvers.ammo_changed.connect(_on_ammo_changed)
 	revolvers.reload_started.connect(_on_reload_started)
 	revolvers.reload_progress_updated.connect(_on_reload_progress_updated)
+	#revolvers.reload_perfect.connect(_on_reload_perfect)
+	#revolvers.reload_input_window.connect(_on_reload_input_window)
 	
 	# Получаем текущее состояние
 	var ammo_info = revolvers.get_ammo_info()
@@ -84,6 +89,10 @@ func _disconnect_from_revolvers():
 			revolvers.reload_started.disconnect(_on_reload_started)
 		if revolvers.reload_progress_updated.is_connected(_on_reload_progress_updated):
 			revolvers.reload_progress_updated.disconnect(_on_reload_progress_updated)
+		#if revolvers.reload_perfect.is_connected(_on_reload_perfect):
+			#revolvers.reload_perfect.disconnect(_on_reload_perfect)
+		#if revolvers.reload_input_window.is_connected(_on_reload_input_window):
+			#revolvers.reload_input_window.disconnect(_on_reload_input_window)
 		revolvers = null
 
 func _process(_delta):
@@ -110,6 +119,7 @@ func _on_reload_started(reload_duration: float):
 	is_reloading = true
 	reload_progress = 0.0
 	value = 0.0
+	in_perfect_window = false
 
 func _on_reload_progress_updated(progress: float):
 	reload_progress = progress
@@ -118,3 +128,33 @@ func _on_reload_progress_updated(progress: float):
 		modulate = Color.WHITE
 		is_reloading = false
 		value = max_total_ammo
+		in_perfect_window = false
+
+#func _on_reload_perfect():
+	#"""Perfect reload! Вспышка и эффект"""
+	#print("UI: Perfect reload effect!")
+	#
+	## Яркая вспышка
+	#var tween = create_tween()
+	#tween.tween_property(self, "modulate", Color(1, 1, 0.3, 1), 0.05)
+	#tween.tween_property(self, "modulate", Color.WHITE, 0.15)
+	
+	# Можно добавить звук, particles и т.д.
+
+#func _on_reload_input_window(progress: float):
+	#"""Подсветка окна perfect reload"""
+	#if not revolvers:
+		#return
+	#
+	##var center := revolvers.perfect_window_center
+	##var radius := revolvers.perfect_window_radius
+	#var was_in_window := in_perfect_window
+	#in_perfect_window = abs(progress - center) <= radius
+	#
+	## Меняем цвет когда входим/выходим из окна
+	#if in_perfect_window and not was_in_window:
+		## Вошли в окно - зеленоватый оттенок
+		#modulate = Color(0.7, 1.0, 0.7, 1)
+	#elif not in_perfect_window and was_in_window:
+		## Вышли из окна - обратно красный
+		#modulate = Color.FIREBRICK

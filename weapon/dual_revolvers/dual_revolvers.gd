@@ -37,11 +37,6 @@ func _setup_visuals():
 	visuals.revolver_scene = revolver_gun_scene
 	add_child(visuals)
 	
-	visuals.active_offset = Vector2(0, 0)
-	visuals.inactive_offset = Vector2(-15, 8)
-	visuals.inactive_rotation = -30.0
-	visuals.transition_speed = 15.0
-	
 	visuals.shoot_animation_finished.connect(_on_shoot_anim_finished)
 	visuals.reload_animation_finished.connect(_on_reload_anim_finished)
 	

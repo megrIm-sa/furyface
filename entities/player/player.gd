@@ -1,3 +1,4 @@
+# res://scripts/player/player.gd
 class_name Player
 extends CharacterBody2D
 
@@ -9,15 +10,19 @@ extends CharacterBody2D
 @export var max_health: float = 100.0
 
 @export_group("Dash Cooldowns (in beats)")
-@export var dash_cooldown_perfect: float = 0.0  # Нет кулдауна
-@export var dash_cooldown_good: float = 1.0     # 1 бит
-@export var dash_cooldown_miss: float = 2.0     # 2 бита
+@export var dash_cooldown_perfect: float = 0.0
+@export var dash_cooldown_good: float = 1.0
+@export var dash_cooldown_miss: float = 2.0
+
+@export_group("Animation")
+@export var walk_backwards_threshold: float = -0.3  # Порог для определения движения назад
 
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var mask_sprite: Sprite2D = $MaskSprite2D
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var weapon_manager: WeaponManager = $WeaponManager
 
-enum State { IDLE, WALK, DASH }
+enum State { IDLE, WALK, DASH, DEAD }
 var state: State = State.IDLE
 var input_dir: Vector2 = Vector2.ZERO
 var dash_dir: Vector2 = Vector2.ZERO
@@ -25,6 +30,10 @@ var dash_timer: float = 0.0
 
 var is_invulnerable := false
 var current_health: float
+var is_dead: bool = false
+
+# Направление взгляда (к курсору)
+var facing_direction: Vector2 = Vector2.RIGHT
 
 # Dash cooldown система
 var dash_cooldown_timer: float = 0.0
@@ -40,13 +49,22 @@ func _enter_tree() -> void:
 func _ready():
 	current_health = max_health
 	
-	# Находим Conductor для работы с ритмом
 	conductor = get_tree().get_first_node_in_group("conductor")
 	if not conductor:
 		push_warning("Player: Conductor not found! Dash cooldown may not work correctly.")
+	
+	# Запускаем начальную анимацию
+	if anim and anim.has_animation("idle"):
+		anim.play("idle")
 
 func _physics_process(delta):
+	if is_dead:
+		return
+	
 	input_dir = _get_input_direction()
+	
+	# Обновляем направление взгляда к курсору
+	_update_facing_direction()
 	
 	# Обновляем кулдаун dash
 	if dash_cooldown_timer > 0.0:
@@ -81,6 +99,8 @@ func _physics_process(delta):
 			_state_walk(delta)
 		State.DASH:
 			_state_dash(delta)
+		State.DEAD:
+			pass
 	
 	move_and_slide()
 	_update_sprite_flip()
@@ -106,14 +126,73 @@ func _state_dash(delta):
 		is_invulnerable = false
 		_change_state(State.WALK if input_dir != Vector2.ZERO else State.IDLE)
 
+# ============= FACING & FLIP =============
+func _update_facing_direction():
+	"""Обновляет направление взгляда к курсору"""
+	var mouse_pos = get_global_mouse_position()
+	facing_direction = (mouse_pos - global_position).normalized()
+
+func _update_sprite_flip():
+	"""Разворачивает спрайт в зависимости от направления к курсору"""
+	if facing_direction.x != 0:
+		sprite.flip_h = facing_direction.x < 0
+		if mask_sprite:
+			mask_sprite.flip_h = facing_direction.x < 0
+
+# ============= ANIMATION SYSTEM =============
+func _update_animation():
+	if not anim:
+		return
+	
+	match state:
+		State.IDLE:
+			if anim.current_animation != "idle":
+				anim.play("idle")
+			anim.speed_scale = 1.0
+		
+		State.WALK:
+			if anim.current_animation != "walk":
+				anim.play("walk")
+			
+			# Проверяем, идет ли персонаж задом
+			if _is_walking_backwards():
+				anim.speed_scale = -1.0  # Инвертируем анимацию
+			else:
+				anim.speed_scale = 1.0
+		
+		State.DASH:
+			# Можно добавить отдельную dash анимацию
+			if anim.has_animation("dash"):
+				if anim.current_animation != "dash":
+					anim.play("dash")
+			else:
+				# Или используем walk на высокой скорости
+				if anim.current_animation != "walk":
+					anim.play("walk")
+				anim.speed_scale = 2.0
+		
+		State.DEAD:
+			# Анимация смерти проигрывается один раз в _die()
+			pass
+
+func _is_walking_backwards() -> bool:
+	"""Проверяет, идет ли персонаж задом (движение против направления взгляда)"""
+	if velocity.length() < 10.0:  # Слишком медленно
+		return false
+	
+	# Вычисляем dot product между направлением движения и направлением взгляда
+	var movement_dir = velocity.normalized()
+	var dot = movement_dir.dot(facing_direction)
+	
+	# Если dot < 0, движение в обратную сторону
+	return dot < walk_backwards_threshold
+
 # ============= DASH SYSTEM =============
 func _try_dash(hit_type: Enums.HitType):
-	# Проверяем, доступен ли dash
 	if not can_dash():
 		print("Dash on cooldown! (%.2fs remaining)" % dash_cooldown_timer)
 		return
 	
-	# Определяем успешность и кулдаун
 	var is_successful = false
 	var cooldown_beats = 0.0
 	
@@ -128,15 +207,12 @@ func _try_dash(hit_type: Enums.HitType):
 			cooldown_beats = dash_cooldown_good
 			print("Dash: GOOD! Cooldown: %.1f beats" % cooldown_beats)
 		
-		_:  # MISS, BAD
+		_:
 			is_successful = false
 			cooldown_beats = dash_cooldown_miss
 			print("Dash: MISSED! Cooldown: %.1f beats" % cooldown_beats)
 	
-	# Выполняем dash
 	_start_dash(is_successful, hit_type)
-	
-	# Устанавливаем кулдаун
 	_set_dash_cooldown(cooldown_beats)
 
 func _start_dash(invulnerable: bool, hit_type: Enums.HitType):
@@ -145,7 +221,7 @@ func _start_dash(invulnerable: bool, hit_type: Enums.HitType):
 	
 	is_invulnerable = invulnerable
 	dash_timer = dash_duration
-	dash_dir = input_dir if input_dir != Vector2.ZERO else Vector2.RIGHT
+	dash_dir = input_dir if input_dir != Vector2.ZERO else facing_direction
 	_change_state(State.DASH)
 
 func _set_dash_cooldown(beats: float):
@@ -153,34 +229,28 @@ func _set_dash_cooldown(beats: float):
 		dash_cooldown_timer = 0.0
 		return
 	
-	# Конвертируем биты в секунды
 	if conductor:
 		var beat_duration = conductor.get_beat_duration()
 		dash_cooldown_timer = beats * beat_duration
 		dash_cooldown_changed.emit(dash_cooldown_timer, beats * beat_duration)
 	else:
-		# Fallback если нет Conductor (используем стандартный BPM 120)
-		var beat_duration = 60.0 / 120.0  # 0.5 секунды
+		var beat_duration = 60.0 / 120.0
 		dash_cooldown_timer = beats * beat_duration
 		push_warning("Player: Using fallback beat duration for dash cooldown")
 
 func can_dash() -> bool:
-	return dash_cooldown_timer <= 0.0 and state != State.DASH
+	return dash_cooldown_timer <= 0.0 and state != State.DASH and not is_dead
 
 func get_dash_cooldown_progress() -> float:
-	"""Возвращает прогресс кулдауна от 0.0 (готов) до 1.0 (полный кулдаун)"""
 	if dash_cooldown_timer <= 0.0:
 		return 0.0
 	
-	# Нужно знать максимальный кулдаун для расчёта прогресса
-	# Используем самый длинный возможный кулдаун (miss)
 	if conductor:
 		var max_cooldown = dash_cooldown_miss * conductor.get_beat_duration()
 		return clamp(dash_cooldown_timer / max_cooldown, 0.0, 1.0)
 	return 0.0
 
 func get_dash_cooldown_remaining_beats() -> float:
-	"""Возвращает оставшиеся биты кулдауна"""
 	if dash_cooldown_timer <= 0.0 or not conductor:
 		return 0.0
 	
@@ -200,22 +270,9 @@ func _get_input_direction() -> Vector2:
 	)
 	return dir.normalized()
 
-func _update_animation():
-	match state:
-		State.IDLE:
-			pass
-		State.WALK:
-			pass
-		State.DASH:
-			pass
-
-func _update_sprite_flip():
-	if input_dir.x != 0:
-		sprite.flip_h = input_dir.x < 0
-
 # ============= DAMAGE SYSTEM =============
 func take_damage(amount: float, source_position: Vector2, knockback_direction: Vector2 = Vector2.ZERO):
-	if is_invulnerable:
+	if is_invulnerable or is_dead:
 		return
 	
 	current_health -= amount
@@ -230,8 +287,20 @@ func take_damage(amount: float, source_position: Vector2, knockback_direction: V
 		_die()
 
 func _die():
+	if is_dead:
+		return
+	
+	is_dead = true
+	_change_state(State.DEAD)
+	
+	# Проигрываем анимацию смерти
+	if anim and anim.has_animation("death"):
+		anim.play("death")
+		await anim.animation_finished
+	
 	player_died.emit()
-	# Логика смерти игрока
+	
+	# Дополнительная логика смерти (экран game over, респавн и т.д.)
 
 func _flash_damage():
 	var original_modulate = sprite.modulate

@@ -37,14 +37,11 @@
 				"a3d1daeb-7dc3-4267-89ea-8462eae6212f",
 				"e2f84555-0ca7-4017-b2f6-52eaa9ec526b",
 				"d94f8fba-af65-4e05-82bd-160e1d685948",
-				"49215122-39ba-4a5a-b689-6c374d24c749",
 				"f76d0027-d26f-4cae-9e20-f687900974bc",
+				"49215122-39ba-4a5a-b689-6c374d24c749",
 				"d7c7eb5f-c91b-4f1b-964a-fbacf4e4b57b",
 				"24e13a3a-67d2-4f15-9ef7-529d34b4efd7",
 				"b998beae-22c3-4ba4-b547-d2f0536a7d47",
-				"7b7ad2ad-3bd2-4033-b370-9b13da9c52e0",
-				"566c653a-5f8c-4f81-a6ed-eeb19eabfe3c",
-				"a5f34607-685c-4f6b-81e0-14da91c93b14",
 				"f57e2d71-34df-45c2-a72a-c6a24883a550",
 				"c35a5b35-cda1-478d-a87a-ad7edbb4045f",
 				"4a3ff317-4351-4b02-a990-c2ee14d1e4e2",
@@ -60,7 +57,7 @@
 			"uuid": "c7f8fdd0-bb0c-4f48-9aa2-1c3af1d19707",
 			"title": "In progress",
 			"tasks": [
-				"bec3e22d-d3e2-4edc-b51c-007fa94ad75b"
+				"a5f34607-685c-4f6b-81e0-14da91c93b14"
 			]
 		},
 		{
@@ -75,7 +72,10 @@
 				"a49a4dd1-9b96-408c-86b9-aa3b4d790cc9",
 				"d320f25c-e394-4018-a0ed-7a1e8425895c",
 				"ff33a245-e2fc-4b11-be0a-f9d2b6b326a1",
-				"b947e0f4-9c7d-463d-ba56-91fa2389b72e"
+				"b947e0f4-9c7d-463d-ba56-91fa2389b72e",
+				"bec3e22d-d3e2-4edc-b51c-007fa94ad75b",
+				"7b7ad2ad-3bd2-4033-b370-9b13da9c52e0",
+				"566c653a-5f8c-4f81-a6ed-eeb19eabfe3c"
 			]
 		}
 	],

@@ -1,21 +1,103 @@
-[gd_scene load_steps=14 format=3 uid="uid://dq1s3av4acd4j"]
+[gd_scene load_steps=14 format=3 uid="uid://bmaa4eujf80hs"]
 
-[ext_resource type="Script" uid="uid://ckrqdrewqtu40" path="res://entities/enemies/basic_enemy/basic_enemy.gd" id="1_plvsb"]
-[ext_resource type="Script" uid="uid://dsj23kn1ilg7a" path="res://resources/enemies/enemy_resource.gd" id="2_fmpxo"]
-[ext_resource type="Texture2D" uid="uid://d3v4371oaktc1" path="res://entities/enemies/basic_enemy/shock/shock_person3_walk.png" id="3_fi0h5"]
-[ext_resource type="Texture2D" uid="uid://cen2p84008q3" path="res://entities/enemies/basic_enemy/shock/shock_person3_idle.png" id="3_fmpxo"]
-[ext_resource type="Texture2D" uid="uid://cnylwbnqjwnij" path="res://entities/enemies/basic_enemy/shock/shock_person3_attack.png" id="3_yd86v"]
-[ext_resource type="Texture2D" uid="uid://enmaptcwb5g" path="res://entities/enemies/basic_enemy/shock/shock_person3_death.png" id="6_qeju4"]
+[ext_resource type="Script" uid="uid://xpreb0wvwovh" path="res://entities/enemies/rectangle_enemy/rectangle_enemy.gd" id="1_16fb4"]
+[ext_resource type="Script" uid="uid://dsj23kn1ilg7a" path="res://resources/enemies/enemy_resource.gd" id="2_ut7qu"]
+[ext_resource type="Texture2D" uid="uid://vkaoj88wt05i" path="res://entities/enemies/rectangle_enemy/shock/shock_enemy2_attack.png" id="3_67sed"]
+[ext_resource type="Texture2D" uid="uid://dan2ixhkjyx67" path="res://entities/enemies/rectangle_enemy/shock/shock_enemy2_death.png" id="5_wm600"]
+[ext_resource type="Texture2D" uid="uid://bkbuv0fbebt3x" path="res://entities/enemies/rectangle_enemy/shock/shock_enemy2_idle.png" id="6_wm600"]
+[ext_resource type="Texture2D" uid="uid://b4elyy3r7olid" path="res://entities/enemies/rectangle_enemy/shock/shock_enemy2_walk.png" id="7_wm600"]
 
-[sub_resource type="Resource" id="Resource_fi0h5"]
-script = ExtResource("2_fmpxo")
-enemy_name = "Basic Enemy"
-damage = 30.0
-windup_beats = 3
+[sub_resource type="Resource" id="Resource_67sed"]
+script = ExtResource("2_ut7qu")
+enemy_name = "Rectangle Enemy"
+max_health = 40.0
+move_speed = 100.0
+damage = 15.0
+windup_beats = 2
+attack_shape = "Rectangle"
+attack_width = 20.0
 metadata/_custom_type_script = "uid://dsj23kn1ilg7a"
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_gomqg"]
-size = Vector2(11, 27)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_67sed"]
+size = Vector2(9, 23)
+
+[sub_resource type="Animation" id="Animation_qeju4"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_67sed")]
+}
+
+[sub_resource type="Animation" id="Animation_treae"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_wm600")]
+}
 
 [sub_resource type="Animation" id="Animation_fi0h5"]
 resource_name = "idle"
@@ -55,7 +137,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("3_fmpxo")]
+"values": [ExtResource("6_wm600")]
 }
 
 [sub_resource type="Animation" id="Animation_2wuor"]
@@ -96,88 +178,10 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("3_fi0h5")]
+"values": [ExtResource("7_wm600")]
 }
 
-[sub_resource type="Animation" id="Animation_treae"]
-resource_name = "idle"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:hframes")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [10]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:texture")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("6_qeju4")]
-}
-
-[sub_resource type="Animation" id="Animation_qeju4"]
-resource_name = "idle"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:hframes")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [10]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:texture")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("3_yd86v")]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_2wuor"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wm600"]
 _data = {
 &"attack": SubResource("Animation_qeju4"),
 &"death": SubResource("Animation_treae"),
@@ -185,21 +189,21 @@ _data = {
 &"walk": SubResource("Animation_2wuor")
 }
 
-[node name="BasicEnemy" type="CharacterBody2D" groups=["enemies"]]
+[node name="RectangleEnemy" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 2
-script = ExtResource("1_plvsb")
-enemy_data = SubResource("Resource_fi0h5")
+script = ExtResource("1_16fb4")
+enemy_data = SubResource("Resource_67sed")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("3_yd86v")
-hframes = 10
+texture = ExtResource("7_wm600")
+hframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 2.5)
-shape = SubResource("RectangleShape2D_gomqg")
+position = Vector2(-0.5, 4.5)
+shape = SubResource("RectangleShape2D_67sed")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-&"": SubResource("AnimationLibrary_2wuor")
+&"": SubResource("AnimationLibrary_wm600")
 }
 autoplay = "idle"

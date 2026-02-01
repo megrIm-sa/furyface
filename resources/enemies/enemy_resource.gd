@@ -13,6 +13,11 @@ extends Resource
 @export var detection_range: float = 400.0
 @export var windup_beats: int = 1  # Сколько битов замах
 
+@export_group("Attack Shape")
+@export_enum("Circle", "Rectangle") var attack_shape: String = "Circle"
+@export var attack_width: float = 60.0   # Ширина прямоугольника
+@export var attack_length: float = 100.0  # Длина прямоугольника (дальность)
+
 @export_group("Knockback")
 @export var knockback_force: float = 150.0
 @export var knockback_resistance: float = 1.0  # Множитель получаемого knockback
