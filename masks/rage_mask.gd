@@ -24,6 +24,11 @@ func _ready():
 	circle_pulse_min = 0.92
 	circle_pulse_max = 1.08
 	circle_pulse_alpha = true
+	
+	await get_tree().process_frame
+	ability_manager.player.mask_sprite.modulate = activation_color
+	
+
 
 func _on_activate():
 	_apply_damage_boost()
@@ -77,20 +82,20 @@ func _apply_visual_effects():
 	if not ability_manager or not ability_manager.player:
 		return
 	
-	var mask_sprite = ability_manager.player.mask_sprite
-	if mask_sprite:
-		var target_color = activation_color
-		target_color.a = visual_intensity
-		
-		var tween = create_tween()
-		tween.tween_property(mask_sprite, "modulate", target_color, 0.3)
+	#var mask_sprite = ability_manager.player.mask_sprite
+	#if mask_sprite:
+		#var target_color = activation_color
+		#target_color.a = visual_intensity
+		#
+		#var tween = create_tween()
+		#tween.tween_property(mask_sprite, "modulate", target_color, 0.3)
 
 func _remove_visual_effects():
 	"""Убирает визуальные эффекты"""
 	if not ability_manager or not ability_manager.player:
 		return
 	
-	var mask_sprite = ability_manager.player.mask_sprite
-	if mask_sprite:
-		var tween = create_tween()
-		tween.tween_property(mask_sprite, "modulate", Color.WHITE, 0.3)
+	#var mask_sprite = ability_manager.player.mask_sprite
+	#if mask_sprite:
+		#var tween = create_tween()
+		#tween.tween_property(mask_sprite, "modulate", Color.WHITE, 0.3)

@@ -189,7 +189,7 @@ _data = {
 
 [node name="BasicEnemy" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 2
-collision_mask = 17
+collision_mask = 16
 script = ExtResource("1_plvsb")
 enemy_data = SubResource("Resource_fi0h5")
 

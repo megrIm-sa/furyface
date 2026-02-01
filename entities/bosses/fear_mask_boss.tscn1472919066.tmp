@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://cuanai4l0ucvy"]
+
+[ext_resource type="Script" uid="uid://bsmn2q5xjc7bf" path="res://entities/bosses/fear_mask_boss.gd" id="1_bteeg"]
+[ext_resource type="PackedScene" uid="uid://ox4jxo004uq1" path="res://masks/fear_mask.tscn" id="2_13o7l"]
+[ext_resource type="Texture2D" uid="uid://bkbuv0fbebt3x" path="res://entities/enemies/rectangle_enemy/shock/shock_enemy2_idle.png" id="2_gxgma"]
+[ext_resource type="Script" uid="uid://dp567vndb4v8s" path="res://entities/bosses/boss_health_bar.gd" id="4_5s1yq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gxgma"]
+size = Vector2(19, 47)
+
+[node name="FearMaskBoss" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_bteeg")
+boss_name = "Feaer Mask"
+max_health = null
+move_speed = null
+attack_range = 64.0
+attack_damage = null
+phase_2_health_threshold = null
+cross_attack_width = null
+cross_attack_length = null
+windup_beats_phase1 = null
+windup_beats_phase2 = null
+attack_cooldown_beats = null
+debug_draw = null
+telegraph_color_start = null
+telegraph_color_end = null
+reward_mask_scene = ExtResource("2_13o7l")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("2_gxgma")
+hframes = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, 8.5)
+shape = SubResource("RectangleShape2D_gxgma")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control" node_paths=PackedStringArray("health_bar")]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -128.0
+offset_top = 16.0
+offset_right = 128.0
+offset_bottom = 43.0
+grow_horizontal = 2
+show_percentage = false
+script = ExtResource("4_5s1yq")
+health_bar = NodePath(".")
+metadata/_edit_use_anchors_ = true

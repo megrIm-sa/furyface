@@ -16,12 +16,12 @@ signal ability_deactivated()
 @export var miss_combo_loss: float = 25.0
 @export var min_ability_duration: float = 5.0  # Минимальное время действия способности
 
-@export_group("Starting Mask")
-@export var starting_mask_scene: PackedScene
+
 var mask_scenes: Dictionary = {
 	Enums.MaskType.RAGE: preload("res://masks/rage_mask.tscn"),
-	Enums.MaskType.FEAR: preload("res://masks/fear_mask.tscn")  # НОВОЕ
+	Enums.MaskType.FEAR: preload("res://masks/fear_mask.tscn")
 }
+
 var player: Player
 var current_combo: float = 0.0
 var current_mask: BaseMask
@@ -33,11 +33,8 @@ func _ready():
 	assert(player != null, "MaskAbilityManager must be child of Player")
 	
 	# Загружаем стартовую маску
-	if starting_mask_scene:
-		var mask = starting_mask_scene.instantiate() as BaseMask
-		equip_mask(mask)
-	else:
-		push_warning("MaskAbilityManager: No starting mask scene!")
+	var mask = mask_scenes[GlobalSettings.mask].instantiate() as BaseMask
+	equip_mask(mask)
 
 func _process(delta):
 	_decay_combo(delta)

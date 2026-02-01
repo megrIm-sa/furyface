@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cddfptgnqtnjf"]
+[gd_scene load_steps=23 format=3 uid="uid://cddfptgnqtnjf"]
 
 [ext_resource type="Script" uid="uid://cbdjxvq7h27s7" path="res://entities/player/player.gd" id="1_sglur"]
 [ext_resource type="Texture2D" uid="uid://by2dxiv53a4dt" path="res://entities/player/sprites/player_idle.png" id="3_26q78"]
@@ -13,7 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://dfar4u2wwgx16" path="res://entities/player/sprites/player_mask_death.png" id="7_a1qjk"]
 [ext_resource type="Script" uid="uid://b0ksli61si5vb" path="res://entities/player/hands.gd" id="7_qiwj3"]
 [ext_resource type="Script" uid="uid://cendxjy3e1ktm" path="res://masks/mask_ability_manager.gd" id="8_j3ovn"]
-[ext_resource type="PackedScene" uid="uid://di0f08hm5fyx6" path="res://masks/rage_mask.tscn" id="9_afbqv"]
 
 [sub_resource type="Animation" id="Animation_vnv7o"]
 length = 0.001
@@ -350,8 +349,9 @@ corner_detail = 6
 size = Vector2(4, 4)
 
 [node name="Player" type="CharacterBody2D"]
+z_index = 1
 y_sort_enabled = true
-collision_mask = 10
+collision_mask = 16
 script = ExtResource("1_sglur")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -383,7 +383,6 @@ shape = SubResource("RectangleShape2D_ta7ci")
 position = Vector2(0, 13)
 script = ExtResource("8_j3ovn")
 min_ability_duration = 3.0
-starting_mask_scene = ExtResource("9_afbqv")
 
 [node name="WeaponManager" type="Node2D" parent="."]
 modulate = Color(0.7581918, 0.7581918, 0.7581917, 1)

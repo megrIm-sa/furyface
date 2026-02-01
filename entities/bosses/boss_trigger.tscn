@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgcvnc4r7i574"]
+
+[ext_resource type="Script" uid="uid://cle3lhswf7vj1" path="res://entities/bosses/boss_trigger.gd" id="1_ew6sn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ew6sn"]
+size = Vector2(32, 32)
+
+[node name="BossTrigger" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_ew6sn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ew6sn")

@@ -1,0 +1,66 @@
+[gd_scene load_steps=4 format=3 uid="uid://ktc8xcbqpbvu"]
+
+[ext_resource type="Script" uid="uid://d28jdpfp5dt65" path="res://levels/instruction_trigger.gd" id="1_8wvuk"]
+[ext_resource type="Texture2D" uid="uid://dwci2cmda8nxu" path="res://levels/hint.png" id="2_r64fv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8wvuk"]
+size = Vector2(32, 32)
+
+[node name="InstructionTrigger" type="Area2D" node_paths=PackedStringArray("instruction_panel")]
+collision_layer = 0
+script = ExtResource("1_8wvuk")
+instruction_panel = NodePath("CanvasLayer")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+texture = ExtResource("2_r64fv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_8wvuk")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="InstructionPanel" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/InstructionPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -325.0
+offset_top = -255.75
+offset_right = 325.0
+offset_bottom = 255.75
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "[center][b]Welcome to the Furyface[/b][/center]
+
+[b]Movement:[/b]
+• [color=yellow]WASD[/color] - Move
+• [color=yellow]Mouse[/color] - Aim
+
+[b]Combat:[/b]
+• [color=yellow]Left Click[/color] - Attack
+• [color=yellow]Space[/color] - Dash
+• [color=yellow]Q[/color] - Switch Weapon
+• [color=yellow]R[/color] - Reload Weapon
+
+[b]Rhythm Mechanics:[/b]
+Hit attacks [color=green]ON THE BEAT[/color] for maximum effect!
+• [color=cyan]Perfect[/color] timing - Full damage, no cooldown
+• [color=lime]Good[/color] timing - Normal damage, short cooldown
+• [color=red]Miss[/color] - Reduced damage, long cooldown
+
+Mask abilities:
+Mask of Fury - Deals 1.5x damage during a combo.
+Mask of Terror - Has a 25% chance to inflict terror on the enemy."
+scroll_active = false
