@@ -20,7 +20,6 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
 	for spawner in spawners:
-		spawner.mouse_filter = MOUSE_FILTER_IGNORE
 		note_hit.connect(spawner.beat_pressed)
 
 

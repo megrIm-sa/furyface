@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://bbrew8mi5empu"]
+[gd_scene load_steps=27 format=4 uid="uid://bbrew8mi5empu"]
 
 [ext_resource type="Texture2D" uid="uid://crwovwischbym" path="res://ui/health_bar/circle.png" id="1_80vhd"]
 [ext_resource type="Script" uid="uid://blayqdkambb0r" path="res://levels/level.gd" id="1_pb8y7"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://ck74r7rhosput" path="res://game_state/note_manager.gd" id="9_rtcij"]
 [ext_resource type="Shader" uid="uid://dupuwvrwc67la" path="res://shaders/combo_bar.gdshader" id="11_lh335"]
 [ext_resource type="Script" uid="uid://bitimivi3qh8s" path="res://masks/combo_bar.gd" id="11_ta7ci"]
+[ext_resource type="PackedScene" uid="uid://cy5biswq7px38" path="res://ui/note/note.tscn" id="15_574oa"]
 [ext_resource type="Script" uid="uid://cwv8la58h46vu" path="res://ui/revolver_ammo_ui.gd" id="15_ta7ci"]
 [ext_resource type="PackedScene" uid="uid://cuanai4l0ucvy" path="res://entities/bosses/fear_mask_boss.tscn" id="17_lh335"]
 [ext_resource type="PackedScene" uid="uid://ktc8xcbqpbvu" path="res://levels/instruction_trigger.tscn" id="19_368ro"]
@@ -217,7 +218,9 @@ offset_right = -26.0
 offset_bottom = 12.0
 grow_horizontal = 0
 grow_vertical = 2
+mouse_filter = 2
 flip_h = true
+note_scene = ExtResource("15_574oa")
 movement_direction = Vector2(1, 0)
 metadata/_edit_use_anchors_ = true
 
@@ -231,6 +234,8 @@ offset_top = -12.0
 offset_right = 38.0
 offset_bottom = 12.0
 grow_vertical = 2
+mouse_filter = 2
+note_scene = ExtResource("15_574oa")
 movement_direction = Vector2(-1, 0)
 metadata/_edit_use_anchors_ = true
 

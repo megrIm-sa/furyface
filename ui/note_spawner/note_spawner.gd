@@ -1,8 +1,9 @@
 class_name NoteSpawner
 extends TextureRect
 
-const NOTE_SCENE = preload("res://ui/note/note.tscn")
+const BEAT_PRESS_SCALE = 1.2
 
+@export var note_scene : PackedScene
 @export var movement_direction: Vector2 = Vector2(0, 1)
 @export var offset: Vector2 = Vector2.ZERO
 
@@ -11,9 +12,7 @@ var _notes : Array[Note]
 
 
 func update_beat_in_notes(curr_beat: float, beat_duration: float) -> void:
-	var i : int = _notes.size()
-	while i >= 0:
-		i -= 1
+	for i in range(_notes.size() - 1, -1, -1):
 		var note := _notes[i]
 		if note.consumed:
 			_notes.remove_at(i)
@@ -24,7 +23,7 @@ func update_beat_in_notes(curr_beat: float, beat_duration: float) -> void:
 
 
 func spawn_note(beat: int) -> void:
-	var note: Note = NOTE_SCENE.instantiate()
+	var note: Note = note_scene.instantiate()
 	note.beat = beat
 	note.movement_direction = movement_direction
 	note.target_position = offset
@@ -35,8 +34,6 @@ func spawn_note(beat: int) -> void:
 
 
 func hit_note(hit_type : Enums.HitType) -> void:
-	if hit_type in [Enums.HitType.MISS_EARLY, Enums.HitType.MISS_LATE]:
-		print("miss")
 	if _notes.is_empty():
 		return
 	
@@ -54,7 +51,7 @@ func sort_notes() -> void:
 
 
 func beat_pressed(_beat: float, _hit_type: Enums.HitType, _hit_error: float) -> void:
-	scale = 1.2 * Vector2.ONE
+	scale = BEAT_PRESS_SCALE * Vector2.ONE
 	if _guide_tween:
 		_guide_tween.kill()
 	_guide_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
