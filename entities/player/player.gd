@@ -79,7 +79,6 @@ func _handle_input() -> void:
 	# Attack
 	if Input.is_action_just_pressed("shoot"):
 		if weapon_manager:
-			print("shoot")
 			weapon_manager.try_attack(note_manager)
 	
 	# Reload

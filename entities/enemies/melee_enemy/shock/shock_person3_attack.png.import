@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3v4371oaktc1"
-path="res://.godot/imported/shock_person3_walk.png-1c0c4cd7fcf8596e9aded8caafaa98d7.ctex"
+uid="uid://cnylwbnqjwnij"
+path="res://.godot/imported/shock_person3_attack.png-5c41ba0baaca3cd688cbcea7f9b04f9b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/enemies/basic_enemy/shock/shock_person3_walk.png"
-dest_files=["res://.godot/imported/shock_person3_walk.png-1c0c4cd7fcf8596e9aded8caafaa98d7.ctex"]
+source_file="res://entities/enemies/melee_enemy/shock/shock_person3_attack.png"
+dest_files=["res://.godot/imported/shock_person3_attack.png-5c41ba0baaca3cd688cbcea7f9b04f9b.ctex"]
 
 [params]
 

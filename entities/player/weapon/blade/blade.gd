@@ -64,12 +64,22 @@ func _perform_slash(direction: Vector2, damage: float, hit_type: Enums.HitType, 
 	var all_bodies = attack_area.get_overlapping_bodies()
 	
 	for body in all_bodies:
-		if body.has_method("take_damage") and _is_in_slash_arc(body, direction, blade_data.slash_arc):
+		var health_component: HealthComponent = null
+		
+		if body.has_node("HealthComponent"):
+			health_component = body.get_node("HealthComponent")
+		elif body.get_parent() and body.get_parent().has_node("HealthComponent"):
+			health_component = body.get_parent().get_node("HealthComponent")
+		
+		# Проверяем, в дуге ли атаки и не неуязвим ли
+		if health_component and not health_component.is_invulnerable and _is_in_slash_arc(body, direction, blade_data.slash_arc):
 			var knockback_velocity = direction.normalized() * blade_data.knockback_force
-			body.take_damage(damage, global_position, knockback_velocity)
+			health_component.take_damage(damage, global_position, knockback_velocity)
 			
 			# Уведомляем о попадании через сигнал
 			_notify_enemy_hit(body, damage, hit_type)
+			
+			print("[Blade] Hit enemy for %s damage" % damage)
 	
 	attack_area.monitoring = false
 

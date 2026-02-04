@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://enmaptcwb5g"
-path="res://.godot/imported/shock_person3_death.png-c1ffd730fb23b03f1ebf43b2e4920c25.ctex"
+uid="uid://cen2p84008q3"
+path="res://.godot/imported/shock_person3_idle.png-3e7aeaf70df409dca89b1831e6913db6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/enemies/basic_enemy/shock/shock_person3_death.png"
-dest_files=["res://.godot/imported/shock_person3_death.png-c1ffd730fb23b03f1ebf43b2e4920c25.ctex"]
+source_file="res://entities/enemies/melee_enemy/shock/shock_person3_idle.png"
+dest_files=["res://.godot/imported/shock_person3_idle.png-3e7aeaf70df409dca89b1831e6913db6.ctex"]
 
 [params]
 

@@ -94,13 +94,22 @@ func _update_trail() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	"""Обрабатывает столкновение с телом"""
-	if body.has_method("take_damage"):
+	var health_component: HealthComponent = null
+	
+	if body.has_node("HealthComponent"):
+		health_component = body.get_node("HealthComponent")
+	elif body.get_parent() and body.get_parent().has_node("HealthComponent"):
+		health_component = body.get_parent().get_node("HealthComponent")
+	
+	if health_component and not health_component.is_invulnerable:
 		# Направление отдачи
 		var knockback = velocity.normalized() * 100.0
-		body.take_damage(damage, global_position, knockback)
+		health_component.take_damage(damage, global_position, knockback)
 		
 		# Испускаем сигнал о попадании
 		body_hit.emit(body)
+		
+		print("[Bullet] Hit target for %s damage" % damage)
 	
 	# Эффект попадания
 	_spawn_impact_effect()

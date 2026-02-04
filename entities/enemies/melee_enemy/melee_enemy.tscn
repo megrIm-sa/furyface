@@ -1,11 +1,21 @@
-[gd_scene load_steps=14 format=3 uid="uid://dq1s3av4acd4j"]
+[gd_scene load_steps=24 format=3 uid="uid://dq1s3av4acd4j"]
 
-[ext_resource type="Script" uid="uid://ckrqdrewqtu40" path="res://entities/enemies/basic_enemy/basic_enemy.gd" id="1_plvsb"]
+[ext_resource type="Script" uid="uid://ckrqdrewqtu40" path="res://entities/enemies/melee_enemy/melee_enemy.gd" id="1_plvsb"]
 [ext_resource type="Script" uid="uid://dsj23kn1ilg7a" path="res://resources/enemies/enemy_resource.gd" id="2_fmpxo"]
-[ext_resource type="Texture2D" uid="uid://d3v4371oaktc1" path="res://entities/enemies/basic_enemy/shock/shock_person3_walk.png" id="3_fi0h5"]
-[ext_resource type="Texture2D" uid="uid://cen2p84008q3" path="res://entities/enemies/basic_enemy/shock/shock_person3_idle.png" id="3_fmpxo"]
-[ext_resource type="Texture2D" uid="uid://cnylwbnqjwnij" path="res://entities/enemies/basic_enemy/shock/shock_person3_attack.png" id="3_yd86v"]
-[ext_resource type="Texture2D" uid="uid://enmaptcwb5g" path="res://entities/enemies/basic_enemy/shock/shock_person3_death.png" id="6_qeju4"]
+[ext_resource type="Texture2D" uid="uid://d3v4371oaktc1" path="res://entities/enemies/melee_enemy/shock/shock_person3_walk.png" id="3_fi0h5"]
+[ext_resource type="Texture2D" uid="uid://cen2p84008q3" path="res://entities/enemies/melee_enemy/shock/shock_person3_idle.png" id="3_fmpxo"]
+[ext_resource type="Texture2D" uid="uid://cnylwbnqjwnij" path="res://entities/enemies/melee_enemy/shock/shock_person3_attack.png" id="3_yd86v"]
+[ext_resource type="Script" uid="uid://c1wrx8uabtw7i" path="res://entities/components/health_component.gd" id="4_qeju4"]
+[ext_resource type="Script" uid="uid://di7ofetp50cao" path="res://entities/components/movement_component.gd" id="5_p11w1"]
+[ext_resource type="Script" uid="uid://wirjx4va8lp1" path="res://entities/components/damage_flash_component.gd" id="6_gd6f1"]
+[ext_resource type="Texture2D" uid="uid://enmaptcwb5g" path="res://entities/enemies/melee_enemy/shock/shock_person3_death.png" id="6_qeju4"]
+[ext_resource type="Script" uid="uid://digm7ywohokug" path="res://entities/enemies/beat_sync_component.gd" id="7_gd6f1"]
+[ext_resource type="Script" uid="uid://bhd8e8b236bvg" path="res://entities/enemies/targeting_component.gd" id="8_1hhpd"]
+[ext_resource type="Script" uid="uid://lsjngtassq4e" path="res://entities/enemies/melee_attack_component.gd" id="9_s23fu"]
+[ext_resource type="Script" uid="uid://b56yss1qjjeuk" path="res://entities/enemies/attack_telegraph_visualizer.gd" id="10_d6jqk"]
+[ext_resource type="Script" uid="uid://dk3maue2pdnhx" path="res://entities/enemies/shockwave_visualizer.gd" id="11_yn84c"]
+[ext_resource type="Script" uid="uid://bjs7v2irp62ik" path="res://entities/enemies/fear_component.gd" id="12_r5xf8"]
+[ext_resource type="Script" uid="uid://7e56551aesxk" path="res://entities/enemies/enemy_animation_controller.gd" id="13_2ugdw"]
 
 [sub_resource type="Resource" id="Resource_fi0h5"]
 script = ExtResource("2_fmpxo")
@@ -187,7 +197,7 @@ _data = {
 &"walk": SubResource("Animation_2wuor")
 }
 
-[node name="BasicEnemy" type="CharacterBody2D" groups=["enemies"]]
+[node name="MeleeEnemy" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 2
 collision_mask = 16
 script = ExtResource("1_plvsb")
@@ -196,6 +206,54 @@ enemy_data = SubResource("Resource_fi0h5")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("3_yd86v")
 hframes = 10
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("4_qeju4")
+metadata/_custom_type_script = "uid://c1wrx8uabtw7i"
+
+[node name="MovementComponent" type="Node" parent="."]
+script = ExtResource("5_p11w1")
+metadata/_custom_type_script = "uid://di7ofetp50cao"
+
+[node name="DamageFlashComponent" type="Node" parent="." node_paths=PackedStringArray("target_sprite")]
+script = ExtResource("6_gd6f1")
+target_sprite = NodePath("../Sprite2D")
+metadata/_custom_type_script = "uid://wirjx4va8lp1"
+
+[node name="BeatSyncComponent" type="Node" parent="."]
+script = ExtResource("7_gd6f1")
+metadata/_custom_type_script = "uid://digm7ywohokug"
+
+[node name="TargetingComponent" type="Node" parent="."]
+script = ExtResource("8_1hhpd")
+metadata/_custom_type_script = "uid://bhd8e8b236bvg"
+
+[node name="MeleeAttackComponent" type="Node" parent="." node_paths=PackedStringArray("telegraph_visualizer", "shockwave_visualizer")]
+script = ExtResource("9_s23fu")
+telegraph_visualizer = NodePath("../AttackTelegraphVisualizer")
+shockwave_visualizer = NodePath("../ShockwaveVisualizer")
+metadata/_custom_type_script = "uid://lsjngtassq4e"
+
+[node name="AttackTelegraphVisualizer" type="Node2D" parent="."]
+script = ExtResource("10_d6jqk")
+metadata/_custom_type_script = "uid://b56yss1qjjeuk"
+
+[node name="ShockwaveVisualizer" type="Node2D" parent="."]
+script = ExtResource("11_yn84c")
+metadata/_custom_type_script = "uid://dk3maue2pdnhx"
+
+[node name="FearComponent" type="Node" parent="." node_paths=PackedStringArray("movement", "sprite", "body")]
+script = ExtResource("12_r5xf8")
+movement = NodePath("../MovementComponent")
+sprite = NodePath("../Sprite2D")
+body = NodePath("..")
+metadata/_custom_type_script = "uid://bjs7v2irp62ik"
+
+[node name="EnemyAnimationController" type="Node" parent="." node_paths=PackedStringArray("anim_player", "sprite")]
+script = ExtResource("13_2ugdw")
+anim_player = NodePath("../AnimationPlayer")
+sprite = NodePath("../Sprite2D")
+metadata/_custom_type_script = "uid://7e56551aesxk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 2.5)

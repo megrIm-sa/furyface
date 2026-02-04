@@ -1,7 +1,7 @@
-class_name RectangleEnemy
+class_name MeleeEnemy
 extends Enemy
 
-@onready var attack: RectangleAttackComponent = $RectangleAttackComponent
+@onready var attack: MeleeAttackComponent = $MeleeAttackComponent
 @onready var fear: FearComponent = $FearComponent
 
 enum State { IDLE, CHASE, ATTACKING, FLEEING }
@@ -10,8 +10,7 @@ var state: State = State.IDLE
 func _on_ready() -> void:
 	# Настраиваем атаку
 	if attack and enemy_data:
-		attack.attack_length = enemy_data.attack_length
-		attack.attack_width = enemy_data.attack_width
+		attack.attack_range = enemy_data.attack_range
 		attack.damage = enemy_data.damage
 		attack.windup_beats = enemy_data.windup_beats
 	
@@ -58,9 +57,8 @@ func _state_chase(delta: float) -> void:
 		state = State.IDLE
 		return
 	
-	# Проверяем дистанцию для атаки (используем attack_length)
-	var distance = targeting.get_distance_to_target()
-	if distance <= enemy_data.attack_length:
+	# Если в радиусе атаки, останавливаемся
+	if targeting.is_target_in_attack_range():
 		movement.stop_movement(self, delta)
 	else:
 		# Двигаемся к цели
@@ -71,6 +69,7 @@ func _state_attacking(delta: float) -> void:
 	"""Состояние атаки"""
 	movement.stop_movement(self, delta)
 
+
 func _state_fleeing(delta: float) -> void:
 	"""Состояние страха (движение управляется FearComponent)"""
 	pass
@@ -80,10 +79,8 @@ func _on_beat(beat: int) -> void:
 	match state:
 		State.CHASE:
 			# Пытаемся атаковать если в радиусе
-			var distance = targeting.get_distance_to_target()
-			if distance <= enemy_data.attack_length and attack and attack.can_attack():
-				var direction = targeting.get_direction_to_target()
-				attack.try_start_attack(direction)
+			if targeting.is_target_in_attack_range() and attack and attack.can_attack():
+				attack.try_start_attack()
 				state = State.ATTACKING
 		
 		State.ATTACKING:
@@ -91,14 +88,12 @@ func _on_beat(beat: int) -> void:
 			if attack:
 				attack.process_beat(beat)
 
-func _on_attack_started(direction: Vector2) -> void:
-	print("attack started")
+func _on_attack_started() -> void:
 	"""Вызывается при начале атаки"""
 	if anim_controller:
 		anim_controller.set_animation_position("attack", 0.0)
 
 func _on_windup_beat(beats_passed: int, total_beats: int) -> void:
-	print("attack windup_beat")
 	"""Вызывается на каждом бите замаха"""
 	# Синхронизируем анимацию с битами
 	if anim_controller and anim_controller.anim_player:
@@ -106,12 +101,12 @@ func _on_windup_beat(beats_passed: int, total_beats: int) -> void:
 		anim_controller.set_animation_position("attack", anim_time)
 
 func _on_attack_executed() -> void:
-	print("attack executed")
 	"""Вызывается при выполнении удара"""
 	# Продолжаем анимацию с момента удара
 	if anim_controller:
 		anim_controller.resume_animation_from("attack", 0.4)
 	
+	# ИСПРАВЛЕНО: завершаем атаку сразу без ожидания
 	if attack:
 		attack.finish_attack()
 	

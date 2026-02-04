@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cuanai4l0ucvy" path="res://entities/bosses/fear_mask_boss.tscn" id="17_lh335"]
 [ext_resource type="PackedScene" uid="uid://ktc8xcbqpbvu" path="res://levels/instruction_trigger.tscn" id="19_368ro"]
 [ext_resource type="PackedScene" uid="uid://bmaa4eujf80hs" path="res://entities/enemies/rectangle_enemy/rectangle_enemy.tscn" id="20_kogck"]
-[ext_resource type="PackedScene" uid="uid://dq1s3av4acd4j" path="res://entities/enemies/basic_enemy/basic_enemy.tscn" id="21_574oa"]
+[ext_resource type="PackedScene" uid="uid://dq1s3av4acd4j" path="res://entities/enemies/melee_enemy/melee_enemy.tscn" id="21_574oa"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ta7ci"]
 content_margin_left = 2.0
@@ -164,57 +164,8 @@ position = Vector2(73, -2730)
 position = Vector2(64, -1909)
 boss = NodePath("../FearMaskBoss")
 
-[node name="RectangleEnemy2" parent="Entities" instance=ExtResource("20_kogck")]
-position = Vector2(52, -691)
+[node name="RectangleEnemy" parent="." instance=ExtResource("20_kogck")]
+position = Vector2(50, -398)
 
-[node name="RectangleEnemy6" parent="Entities" instance=ExtResource("20_kogck")]
-position = Vector2(-131, -1674)
-
-[node name="RectangleEnemy7" parent="Entities" instance=ExtResource("20_kogck")]
-position = Vector2(199, -1622)
-
-[node name="BasicEnemy" parent="Entities" instance=ExtResource("21_574oa")]
-position = Vector2(171, -623)
-enemy_data = null
-
-[node name="BasicEnemy10" parent="Entities" instance=ExtResource("21_574oa")]
-position = Vector2(96, -362)
-enemy_data = null
-
-[node name="BasicEnemy5" parent="Entities" instance=ExtResource("21_574oa")]
-position = Vector2(150, -1547)
-enemy_data = null
-
-[node name="BasicEnemy6" parent="Entities" instance=ExtResource("21_574oa")]
-position = Vector2(13, -1505)
-enemy_data = null
-
-[node name="BasicEnemy7" parent="Entities" instance=ExtResource("21_574oa")]
-position = Vector2(-79, -1494)
-enemy_data = null
-
-[node name="BasicEnemy8" parent="Entities" instance=ExtResource("21_574oa")]
-position = Vector2(127, -1464)
-enemy_data = null
-
-[node name="BasicEnemy9" parent="Entities" instance=ExtResource("21_574oa")]
-position = Vector2(175, -1456)
-enemy_data = null
-
-[node name="RectangleEnemy4" parent="Entities" instance=ExtResource("20_kogck")]
-position = Vector2(-91, -1036)
-
-[node name="RectangleEnemy5" parent="Entities" instance=ExtResource("20_kogck")]
-position = Vector2(-72, -1162)
-
-[node name="BasicEnemy2" parent="Entities" instance=ExtResource("21_574oa")]
-position = Vector2(124, -1000)
-enemy_data = null
-
-[node name="BasicEnemy3" parent="Entities" instance=ExtResource("21_574oa")]
-position = Vector2(76, -1091)
-enemy_data = null
-
-[node name="BasicEnemy4" parent="Entities" instance=ExtResource("21_574oa")]
-position = Vector2(282, -1211)
-enemy_data = null
+[node name="BasicEnemy" parent="." instance=ExtResource("21_574oa")]
+position = Vector2(173, -388)
