@@ -47,12 +47,10 @@ func _check_current_weapon():
 	else:
 		visible = false
 
-func _on_weapon_switched(weapon_type: Enums.WeaponType):
-	if weapon_type == Enums.WeaponType.REVOLVERS:
-		var weapon = weapon_manager.get_weapon(Enums.WeaponType.REVOLVERS)
-		if weapon and weapon is DualRevolvers:
-			_connect_to_revolvers(weapon as DualRevolvers)
-			visible = true
+func _on_weapon_switched(weapon : Weapon):
+	if weapon is DualRevolvers:
+		_connect_to_revolvers(weapon)
+		visible = true
 	else:
 		# Другое оружие, скрываем UI
 		_disconnect_from_revolvers()

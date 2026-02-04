@@ -1,160 +1,132 @@
 class_name DashComponent
 extends Node
 
-signal dash_started(hit_type: Enums.HitType)
+signal dash_started(direction: Vector2, hit_type: Enums.HitType)
 signal dash_finished()
 signal dash_cooldown_changed(current: float, maximum: float)
-signal dash_charges_changed(current: int, maximum: int)
-signal perfect_dash()  # Когда сделан perfect dash
-signal missed_dash()   # Когда промах
+signal perfect_dash()
+signal missed_dash()
 
 @export_group("Dash Configuration")
-@export var base_dash_speed: float = 500.0
-@export var base_dash_duration: float = 0.2
-@export var base_dash_cooldown: float = 1.0
-@export var base_dash_distance: float = 100.0
+@export var dash_speed: float = 500.0
+@export var dash_duration: float = 0.2
+@export var dash_cooldown: float = 1.0
 
 @export_group("Timing Modifiers")
-@export var perfect_speed_multiplier: float = 1.5
-@export var perfect_duration_multiplier: float = 1.2
-@export var perfect_cooldown_reduction: float = 0.3  # -30% к кулдауну
+@export var perfect_speed_mult: float = 1.5
+@export var perfect_duration_mult: float = 1.2
+@export var perfect_cooldown_mult: float = 0.7
 
-@export var good_speed_multiplier: float = 1.0
-@export var good_duration_multiplier: float = 1.0
-@export var good_cooldown_reduction: float = 0.0
+@export var good_speed_mult: float = 1.0
+@export var good_duration_mult: float = 1.0
+@export var good_cooldown_mult: float = 1.0
 
-@export var miss_speed_multiplier: float = 0.6
-@export var miss_duration_multiplier: float = 0.8
-@export var miss_cooldown_penalty: float = 0.5  # +50% к кулдауну
+@export var miss_speed_mult: float = 0.6
+@export var miss_duration_mult: float = 0.8
+@export var miss_cooldown_mult: float = 1.5
 
 @export_group("Advanced")
-@export var max_dash_charges: int = 1
 @export var invincible_during_dash: bool = true
-@export var cancel_dash_on_miss: bool = false  # Отменять ли dash при промахе
+@export var cancel_dash_on_miss: bool = false
 
 @export_group("Dependencies")
 @export var body: CharacterBody2D
 @export var health_component: HealthComponent
 
 var is_dashing: bool = false
+var cooldown_timer: float = 0.0
+
 var dash_timer: float = 0.0
-var dash_cooldown_timer: float = 0.0
 var dash_direction: Vector2 = Vector2.ZERO
+var current_speed: float = 0.0
 
-# Текущие параметры dash (меняются в зависимости от hit_type)
-var current_dash_speed: float = 500.0
-var current_dash_duration: float = 0.2
-
-var current_charges: int = 1
-var was_invincible_before_dash: bool = false
-var last_hit_type: Enums.HitType = Enums.HitType.MISS_LATE
+var was_invulnerable_before_dash: bool = false
+var last_hit_type: Enums.HitType = Enums.HitType.GOOD_EARLY
 
 func _ready() -> void:
-	current_charges = max_dash_charges
-	
-	# Инициализируем UI
-	dash_cooldown_changed.emit(0.0, base_dash_cooldown)
-	if max_dash_charges > 1:
-		dash_charges_changed.emit(current_charges, max_dash_charges)
+	# Emit после создания для UI
+	await get_tree().process_frame
+	dash_cooldown_changed.emit(0.0, dash_cooldown)
 
 func _physics_process(delta: float) -> void:
 	if is_dashing:
 		_process_dash(delta)
 	
-	if dash_cooldown_timer > 0.0:
-		dash_cooldown_timer -= delta
+	if cooldown_timer > 0.0:
+		cooldown_timer -= delta
+		dash_cooldown_changed.emit(cooldown_timer, _get_modified_cooldown(last_hit_type))
 		
-		# Уведомляем UI об изменении
-		dash_cooldown_changed.emit(dash_cooldown_timer, _get_modified_cooldown(last_hit_type))
-		
-		if dash_cooldown_timer <= 0.0:
-			_on_cooldown_finished()
+		if cooldown_timer <= 0.0:
+			cooldown_timer = 0.0
+			dash_cooldown_changed.emit(0.0, dash_cooldown)
 
+## Пытается выполнить dash. Возвращает true если успешно.
 func try_dash(hit_type: Enums.HitType, input_direction: Vector2, facing_direction: Vector2) -> bool:
-	"""Пытается выполнить dash с учетом тайминга нажатия"""
 	if not can_dash():
 		return false
 	
 	# Определяем направление dash
-	var dash_dir = _determine_dash_direction(input_direction, facing_direction)
+	var dash_dir = input_direction if input_direction.length() > 0.1 else facing_direction
 	
 	if dash_dir.length() < 0.1:
 		return false
 	
-	# Проверяем miss - возможно отменяем dash
-	if cancel_dash_on_miss and hit_type in [Enums.HitType.MISS_LATE, Enums.HitType.MISS_EARLY]:
+	# Отменяем dash при промахе если включено
+	if cancel_dash_on_miss and _is_miss(hit_type):
 		missed_dash.emit()
 		return false
 	
 	_start_dash(dash_dir.normalized(), hit_type)
 	return true
 
+## Проверяет, можно ли сделать dash
 func can_dash() -> bool:
-	"""Проверяет, можно ли сделать dash"""
-	return not is_dashing and dash_cooldown_timer <= 0.0 and current_charges > 0
+	return not is_dashing and cooldown_timer <= 0.0
 
-func is_on_cooldown() -> bool:
-	"""Проверяет, на кулдауне ли dash"""
-	return dash_cooldown_timer > 0.0
-
-func get_cooldown_remaining() -> float:
-	"""Возвращает оставшееся время кулдауна"""
-	return dash_cooldown_timer
-
+## Возвращает процент завершения кулдауна (0.0 - 1.0)
 func get_cooldown_percent() -> float:
-	"""Возвращает процент завершения кулдауна (0.0 - 1.0)"""
 	var max_cooldown = _get_modified_cooldown(last_hit_type)
-	if max_cooldown <= 0.0:
-		return 1.0
-	
-	return 1.0 - (dash_cooldown_timer / max_cooldown)
+	return 1.0 - (cooldown_timer / max_cooldown) if max_cooldown > 0.0 else 1.0
 
-func _determine_dash_direction(input_direction: Vector2, facing_direction: Vector2) -> Vector2:
-	"""Определяет направление dash на основе ввода и направления взгляда"""
-	# Если есть ввод, используем его
-	if input_direction.length() > 0.1:
-		return input_direction
-	
-	# Иначе используем направление взгляда
-	return facing_direction
+## Возвращает оставшееся время кулдауна
+func get_cooldown_remaining() -> float:
+	return cooldown_timer
+
+## Сбрасывает кулдаун (для пауэрапов)
+func reset_cooldown() -> void:
+	cooldown_timer = 0.0
+	dash_cooldown_changed.emit(0.0, dash_cooldown)
 
 func _start_dash(direction: Vector2, hit_type: Enums.HitType) -> void:
-	"""Начинает dash с модификаторами на основе hit_type"""
+	"""Начинает dash с модификаторами"""
 	last_hit_type = hit_type
 	
-	# Вычисляем модифицированные параметры
+	# Вычисляем параметры dash
 	var speed_mult = _get_speed_multiplier(hit_type)
 	var duration_mult = _get_duration_multiplier(hit_type)
 	
-	current_dash_speed = base_dash_speed * speed_mult
-	current_dash_duration = base_dash_duration * duration_mult
+	current_speed = dash_speed * speed_mult
+	dash_timer = dash_duration * duration_mult
+	dash_direction = direction
 	
 	is_dashing = true
-	dash_timer = current_dash_duration
-	dash_direction = direction
-	dash_cooldown_timer = _get_modified_cooldown(hit_type)
+	cooldown_timer = _get_modified_cooldown(hit_type)
 	
-	# Используем заряд
-	current_charges -= 1
-	if max_dash_charges > 1:
-		dash_charges_changed.emit(current_charges, max_dash_charges)
-	
-	# Устанавливаем неуязвимость
+	# Включаем неуязвимость
 	if invincible_during_dash and health_component:
-		was_invincible_before_dash = health_component.is_invincible
-		health_component.set_invincible(true)
+		was_invulnerable_before_dash = health_component.is_invulnerable
+		health_component.set_invulnerable()
 	
-	# Уведомляем UI и другие системы
-	dash_cooldown_changed.emit(dash_cooldown_timer, _get_modified_cooldown(hit_type))
-	dash_started.emit(hit_type)
+	dash_cooldown_changed.emit(cooldown_timer, _get_modified_cooldown(hit_type))
+	dash_started.emit(direction, hit_type)
 	
-	# Специальные события для perfect
 	if hit_type == Enums.HitType.PERFECT:
 		perfect_dash.emit()
 
 func _process_dash(delta: float) -> void:
 	"""Обрабатывает движение во время dash"""
 	if not body:
+		_finish_dash()
 		return
 	
 	dash_timer -= delta
@@ -163,8 +135,8 @@ func _process_dash(delta: float) -> void:
 		_finish_dash()
 		return
 	
-	# Применяем движение с текущей скоростью
-	body.velocity = dash_direction * current_dash_speed
+	# Применяем скорость dash
+	body.velocity = dash_direction * current_speed
 
 func _finish_dash() -> void:
 	"""Завершает dash"""
@@ -173,93 +145,41 @@ func _finish_dash() -> void:
 	
 	# Восстанавливаем неуязвимость
 	if invincible_during_dash and health_component:
-		health_component.set_invincible(was_invincible_before_dash)
+		if not was_invulnerable_before_dash:
+			health_component.remove_invulnerability()
 	
 	dash_finished.emit()
 
-func _on_cooldown_finished() -> void:
-	"""Вызывается когда кулдаун завершен"""
-	dash_cooldown_timer = 0.0
-	
-	# Восстанавливаем заряд
-	current_charges = max_dash_charges
-	if max_dash_charges > 1:
-		dash_charges_changed.emit(current_charges, max_dash_charges)
-	
-	# Уведомляем UI
-	dash_cooldown_changed.emit(0.0, base_dash_cooldown)
-
-# ============= TIMING MODIFIERS =============
-
 func _get_speed_multiplier(hit_type: Enums.HitType) -> float:
-	"""Возвращает множитель скорости для типа попадания"""
+	"""Возвращает множитель скорости"""
 	match hit_type:
 		Enums.HitType.PERFECT:
-			return perfect_speed_multiplier
+			return perfect_speed_mult
 		Enums.HitType.GOOD_EARLY, Enums.HitType.GOOD_LATE:
-			return good_speed_multiplier
+			return good_speed_mult
 		_:
-			return miss_speed_multiplier
+			return miss_speed_mult
 
 func _get_duration_multiplier(hit_type: Enums.HitType) -> float:
-	"""Возвращает множитель длительности для типа попадания"""
+	"""Возвращает множитель длительности"""
 	match hit_type:
 		Enums.HitType.PERFECT:
-			return perfect_duration_multiplier
+			return perfect_duration_mult
 		Enums.HitType.GOOD_EARLY, Enums.HitType.GOOD_LATE:
-			return good_duration_multiplier
+			return good_duration_mult
 		_:
-			return miss_duration_multiplier
+			return miss_duration_mult
 
 func _get_modified_cooldown(hit_type: Enums.HitType) -> float:
-	"""Возвращает модифицированный кулдаун для типа попадания"""
-	var cooldown = base_dash_cooldown
-	
+	"""Возвращает модифицированный кулдаун"""
 	match hit_type:
 		Enums.HitType.PERFECT:
-			cooldown *= (1.0 - perfect_cooldown_reduction)
+			return dash_cooldown * perfect_cooldown_mult
 		Enums.HitType.GOOD_EARLY, Enums.HitType.GOOD_LATE:
-			cooldown *= (1.0 - good_cooldown_reduction)
+			return dash_cooldown * good_cooldown_mult
 		_:
-			cooldown *= (1.0 + miss_cooldown_penalty)
-	
-	return cooldown
+			return dash_cooldown * miss_cooldown_mult
 
-# ============= UTILITY METHODS =============
-
-## Сбрасывает кулдаун (для пауэрапов)
-func reset_cooldown() -> void:
-	dash_cooldown_timer = 0.0
-	current_charges = max_dash_charges
-	dash_cooldown_changed.emit(0.0, base_dash_cooldown)
-	if max_dash_charges > 1:
-		dash_charges_changed.emit(current_charges, max_dash_charges)
-
-## Добавляет дополнительный заряд (для апгрейдов)
-func add_charge() -> void:
-	max_dash_charges += 1
-	current_charges += 1
-	dash_charges_changed.emit(current_charges, max_dash_charges)
-
-## Возвращает информацию о текущем dash
-func get_dash_info() -> Dictionary:
-	return {
-		"is_dashing": is_dashing,
-		"dash_timer": dash_timer,
-		"cooldown_timer": dash_cooldown_timer,
-		"current_charges": current_charges,
-		"max_charges": max_dash_charges,
-		"current_speed": current_dash_speed,
-		"current_duration": current_dash_duration,
-		"last_hit_type": last_hit_type
-	}
-
-## Улучшает параметры dash (для системы апгрейдов)
-func upgrade_dash_speed(multiplier: float) -> void:
-	base_dash_speed *= multiplier
-
-func upgrade_dash_duration(multiplier: float) -> void:
-	base_dash_duration *= multiplier
-
-func upgrade_dash_cooldown(reduction: float) -> void:
-	base_dash_cooldown *= (1.0 - reduction)
+func _is_miss(hit_type: Enums.HitType) -> bool:
+	"""Проверяет, является ли тип попадания промахом"""
+	return hit_type in [Enums.HitType.MISS_EARLY, Enums.HitType.MISS_LATE]

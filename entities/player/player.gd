@@ -193,8 +193,8 @@ func _on_died() -> void:
 	
 	player_died.emit()
 
-func _on_dash_started(hit_type: Enums.HitType) -> void:
-	"""Вызывается когда начинается dash (DashComponent передает hit_type)"""
+func _on_dash_started(direction: Vector2, hit_type: Enums.HitType) -> void:
+	"""Вызывается когда начинается dash (DashComponent передает direction, hit_type)"""
 	# DashComponent сам управляет неуязвимостью через health_component
 	# Ничего дополнительно делать не нужно
 	pass

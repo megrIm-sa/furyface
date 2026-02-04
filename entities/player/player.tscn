@@ -438,8 +438,19 @@ metadata/_custom_type_script = "uid://wirjx4va8lp1"
 script = ExtResource("10_b2kln")
 metadata/_custom_type_script = "uid://di7ofetp50cao"
 
-[node name="DashComponent" type="Node" parent="."]
+[node name="DashComponent" type="Node" parent="." node_paths=PackedStringArray("body", "health_component")]
 script = ExtResource("11_we0b7")
+dash_speed = 300.0
+dash_cooldown = 0.25
+perfect_duration_mult = 1.0
+perfect_cooldown_mult = 1.0
+good_speed_mult = 1.5
+good_cooldown_mult = 2.0
+miss_speed_mult = 1.5
+miss_duration_mult = 1.0
+miss_cooldown_mult = 4.0
+body = NodePath("..")
+health_component = NodePath("../HealthComponent")
 metadata/_custom_type_script = "uid://chwxidm0my5f7"
 
 [node name="ComboComponent" type="Node" parent="."]
@@ -557,6 +568,8 @@ fill_mode = 1
 show_percentage = false
 script = ExtResource("6_8fjmc")
 dash_component = NodePath("../../DashComponent")
+smooth_transition = false
+smooth_speed = 0.0
 
 [node name="DashCooldownIndicator2" type="ProgressBar" parent="DashCooldownContainer" node_paths=PackedStringArray("dash_component")]
 layout_mode = 2
@@ -567,6 +580,8 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_qiwj3")
 show_percentage = false
 script = ExtResource("6_8fjmc")
 dash_component = NodePath("../../DashComponent")
+smooth_transition = false
+smooth_speed = 0.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
