@@ -232,6 +232,7 @@ metadata/_custom_type_script = "uid://bhd8e8b236bvg"
 
 [node name="RectangleAttackComponent" type="Node" parent="." node_paths=PackedStringArray("telegraph_visualizer", "shockwave_visualizer")]
 script = ExtResource("9_kq4wu")
+windup_beats = 2
 telegraph_visualizer = NodePath("../RectangleTelegraphVisualizer")
 shockwave_visualizer = NodePath("../RectangleShockwaveVisualizer")
 metadata/_custom_type_script = "uid://basqys1khj6as"

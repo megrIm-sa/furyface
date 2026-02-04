@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b43rfs3xxc0j1" path="res://entities/player/weapon/bullet/Bullet.png" id="2_ccils"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_d6cvk"]
-radius = 3.0
+radius = 4.0
 
 [node name="Bullet" type="Area2D"]
 z_index = 1
