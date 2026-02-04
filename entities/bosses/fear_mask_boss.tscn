@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://cuanai4l0ucvy"]
 
 [ext_resource type="Script" uid="uid://bsmn2q5xjc7bf" path="res://entities/bosses/fear_mask_boss.gd" id="1_bteeg"]
-[ext_resource type="PackedScene" uid="uid://ox4jxo004uq1" path="res://masks/fear_mask.tscn" id="2_13o7l"]
+[ext_resource type="PackedScene" uid="uid://ox4jxo004uq1" path="res://entities/player/masks/fear_mask.tscn" id="2_13o7l"]
 [ext_resource type="Texture2D" uid="uid://ld8fnecga5pq" path="res://entities/player/sprites/player_walk.png" id="3_b52yl"]
 [ext_resource type="Script" uid="uid://dp567vndb4v8s" path="res://entities/bosses/boss_health_bar.gd" id="4_5s1yq"]
 [ext_resource type="Texture2D" uid="uid://b6ykabry31oka" path="res://entities/player/sprites/player_mask_walk.png" id="4_7pkst"]

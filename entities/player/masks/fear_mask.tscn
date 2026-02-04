@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://ox4jxo004uq1"]
+
+[ext_resource type="Script" uid="uid://c0pthqr2m3ti5" path="res://entities/player/masks/fear_mask.gd" id="1_kg36p"]
+[ext_resource type="Texture2D" uid="uid://b8rnlve8lwhoh" path="res://entities/player/masks/masks_16.png" id="2_ntutf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_avqxs"]
+atlas = ExtResource("2_ntutf")
+region = Rect2(16, 0, 16, 17)
+
+[node name="FearMask" type="Node"]
+script = ExtResource("1_kg36p")
+fear_duration = 2.0
+fear_chance = 0.25
+mask_name = "Fear Mask"
+mask_type = 1
+mask_texture = SubResource("AtlasTexture_avqxs")
+mask_icon = SubResource("AtlasTexture_avqxs")
+activation_color = Color(0.7012278, 0.3481302, 1, 1)

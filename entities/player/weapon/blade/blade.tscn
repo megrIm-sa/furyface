@@ -1,0 +1,22 @@
+[gd_scene load_steps=6 format=3 uid="uid://bctmwk7gxteft"]
+
+[ext_resource type="Script" uid="uid://bje4m7njniyq0" path="res://entities/player/weapon/blade/blade.gd" id="1_eny6w"]
+[ext_resource type="PackedScene" uid="uid://buedc8uk0jhy8" path="res://entities/player/weapon/blade/blade_visual.tscn" id="2_dhd1i"]
+[ext_resource type="Resource" uid="uid://cyiqtlyuqlpbr" path="res://resources/weapons/blade.tres" id="2_ib8qa"]
+[ext_resource type="Script" uid="uid://1o17ijk7rwvo" path="res://entities/player/weapon/blade/blade_visuals.gd" id="3_7etog"]
+[ext_resource type="Script" uid="uid://blr4ridx7x37d" path="res://entities/player/weapon/blade/blade_slash_vfx.gd" id="5_xqwt4"]
+
+[node name="Blade" type="Node2D"]
+visible = false
+script = ExtResource("1_eny6w")
+debug_draw = false
+weapon_data = ExtResource("2_ib8qa")
+
+[node name="BladeVisuals" type="Node2D" parent="."]
+script = ExtResource("3_7etog")
+visual_scene = ExtResource("2_dhd1i")
+metadata/_custom_type_script = "uid://1o17ijk7rwvo"
+
+[node name="BladeSlashVFX" type="Node2D" parent="."]
+script = ExtResource("5_xqwt4")
+metadata/_custom_type_script = "uid://blr4ridx7x37d"

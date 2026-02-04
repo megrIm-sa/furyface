@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://buedc8uk0jhy8"]
+
+[ext_resource type="Script" uid="uid://1o17ijk7rwvo" path="res://entities/player/weapon/blade/blade_visuals.gd" id="1_12ilt"]
+[ext_resource type="Texture2D" uid="uid://mp3twuq5hq07" path="res://entities/player/weapon/blade/blade.png" id="2_7jpe3"]
+
+[node name="BladeVisual" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_12ilt")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+y_sort_enabled = true
+texture = ExtResource("2_7jpe3")
+offset = Vector2(0, -10)

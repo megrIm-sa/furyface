@@ -1,51 +1,134 @@
-# dash_cooldown_indicator.gd
+class_name DashCooldownIndicator
 extends ProgressBar
 
-@onready var player: Player = null
+signal cooldown_started()
+signal cooldown_finished()
+
+@export_group("Dependencies")
+@export var dash_component: DashComponent
+
+@export_group("Settings")
+@export var auto_hide_when_ready: bool = true
+@export var smooth_update: bool = true
 
 var current_max_cooldown: float = 0.0
+var target_value: float = 100.0
 
-func _ready():
-	# Ждём один кадр чтобы player был инициализирован
-	await get_tree().process_frame
-	
-	player = get_tree().get_first_node_in_group("player")
-	
-	if player:
-		player.dash_cooldown_changed.connect(_on_dash_cooldown_changed)
-	else:
-		push_warning("DashCooldownIndicator: Player not found!")
-	
+func _ready() -> void:
 	# Настройка визуала
 	min_value = 0.0
-	max_value = 100.0  # Работаем в процентах
+	max_value = 100.0
 	value = 100.0
 	show_percentage = false
-
-func _process(_delta):
-	if not player:
+	
+	await get_tree().process_frame
+	
+	if not dash_component:
+		dash_component = _find_dash_component()
+	
+	if not dash_component:
+		push_error("DashCooldownIndicator: dash_component not assigned!")
 		return
 	
-	if player.dash_cooldown_timer > 0.0 and current_max_cooldown > 0.0:
-		visible = true
+	# Подключаемся к сигналам DashComponent
+	dash_component.dash_cooldown_changed.connect(_on_dash_cooldown_changed)
+	dash_component.dash_started.connect(_on_dash_started)
+	
+	# Устанавливаем начальное состояние
+	if auto_hide_when_ready:
+		visible = false
+
+func _process(delta: float) -> void:
+	if not dash_component:
+		return
+	
+	# Обновляем прогресс в реальном времени
+	if dash_component.is_on_cooldown():
+		if not visible:
+			visible = true
 		
-		# Вычисляем прогресс: от 0% (начало) до 100% (конец)
-		var time_elapsed = current_max_cooldown - player.dash_cooldown_timer
-		var progress_percent = (time_elapsed / current_max_cooldown) * 100.0
-		value = clamp(progress_percent, 0.0, 100.0)
-		
+		_update_cooldown_progress()
 	else:
 		# Кулдаун закончен
-		visible = false
-		value = 100.0
+		if auto_hide_when_ready and visible:
+			visible = false
+		
+		if smooth_update:
+			value = lerp(value, 100.0, delta * 10.0)
+		else:
+			value = 100.0
 
+func _update_cooldown_progress() -> void:
+	"""Обновляет прогресс кулдауна"""
+	if current_max_cooldown <= 0.0:
+		return
+	
+	var current_cooldown = dash_component.get_cooldown_remaining()
+	var time_elapsed = current_max_cooldown - current_cooldown
+	var progress_percent = (time_elapsed / current_max_cooldown) * 100.0
+	
+	target_value = clamp(progress_percent, 0.0, 100.0)
+	
+	if smooth_update:
+		value = lerp(value, target_value, 0.2)
+	else:
+		value = target_value
 
-func _on_dash_cooldown_changed(current: float, maximum: float):
-	# Сохраняем максимальный кулдаун для текущего dash
+func _on_dash_cooldown_changed(current: float, maximum: float) -> void:
+	"""Вызывается при изменении кулдауна"""
 	current_max_cooldown = maximum
 	
-	# Сбрасываем прогресс на 0%
-	value = 0.0
+	if current > 0.0:
+		# Кулдаун активен
+		value = 0.0
+		target_value = 0.0
+		
+		if auto_hide_when_ready:
+			visible = true
+		
+		cooldown_started.emit()
+	else:
+		# Кулдаун закончен
+		value = 100.0
+		target_value = 100.0
+		
+		if auto_hide_when_ready:
+			visible = false
+		
+		cooldown_finished.emit()
+
+func _on_dash_started() -> void:
+	"""Вызывается при начале dash"""
+	# Можно добавить визуальный эффект (вспышка, анимация)
+	pass
+
+func _find_dash_component() -> DashComponent:
+	"""Ищет DashComponent в родительской иерархии (fallback)"""
+	var parent = get_parent()
+	while parent:
+		# Проверяем, есть ли DashComponent у родителя
+		if parent.has_node("DashComponent"):
+			return parent.get_node("DashComponent") as DashComponent
+		
+		# Ищем CanvasLayer -> Player
+		if parent is CanvasLayer:
+			parent = parent.get_parent()
+			if parent and parent.has_node("DashComponent"):
+				return parent.get_node("DashComponent") as DashComponent
+		
+		parent = parent.get_parent()
 	
-	# Показываем индикатор
+	return null
+
+## Устанавливает прогресс напрямую (для внешнего использования)
+func set_progress(percent: float) -> void:
+	value = clamp(percent, 0.0, 100.0)
+	target_value = value
+
+## Принудительно показывает индикатор
+func force_show() -> void:
 	visible = true
+
+## Принудительно скрывает индикатор
+func force_hide() -> void:
+	visible = false

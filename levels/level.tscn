@@ -1,8 +1,6 @@
-[gd_scene load_steps=27 format=4 uid="uid://bbrew8mi5empu"]
+[gd_scene load_steps=20 format=4 uid="uid://bbrew8mi5empu"]
 
-[ext_resource type="Texture2D" uid="uid://crwovwischbym" path="res://ui/health_bar/circle.png" id="1_80vhd"]
 [ext_resource type="Script" uid="uid://blayqdkambb0r" path="res://levels/level.gd" id="1_pb8y7"]
-[ext_resource type="Script" uid="uid://dbb8m2s6lt6s0" path="res://ui/health_bar/health_bar.gd" id="2_hjsbj"]
 [ext_resource type="TileSet" uid="uid://cbdgopn6s30gj" path="res://tileset/ground_tileset.tres" id="2_ta7ci"]
 [ext_resource type="TileSet" uid="uid://drmex0uhbqqst" path="res://tileset/decor_tileset.tres" id="3_ta7ci"]
 [ext_resource type="PackedScene" uid="uid://cddfptgnqtnjf" path="res://entities/player/player.tscn" id="4_d7v53"]
@@ -11,41 +9,14 @@
 [ext_resource type="Script" uid="uid://bk0dstcu83xd8" path="res://ui/cursor/cursor.gd" id="7_d7v53"]
 [ext_resource type="PackedScene" uid="uid://cb7bo3ryay58c" path="res://ui/note_spawner/note_spawner.tscn" id="7_hy0rb"]
 [ext_resource type="Script" uid="uid://wngqq40h2fut" path="res://game_state/conductor.gd" id="8_d5x7l"]
-[ext_resource type="Shader" uid="uid://bsicyqgo74m06" path="res://shaders/healthbar.gdshader" id="8_lh335"]
 [ext_resource type="Texture2D" uid="uid://3pxlsvabsbg5" path="res://ui/cursor/crosshair.png" id="8_mxp4k"]
 [ext_resource type="Script" uid="uid://ck74r7rhosput" path="res://game_state/note_manager.gd" id="9_rtcij"]
-[ext_resource type="Shader" uid="uid://dupuwvrwc67la" path="res://shaders/combo_bar.gdshader" id="11_lh335"]
-[ext_resource type="Script" uid="uid://bitimivi3qh8s" path="res://masks/combo_bar.gd" id="11_ta7ci"]
 [ext_resource type="PackedScene" uid="uid://cy5biswq7px38" path="res://ui/note/note.tscn" id="15_574oa"]
 [ext_resource type="Script" uid="uid://cwv8la58h46vu" path="res://ui/revolver_ammo_ui.gd" id="15_ta7ci"]
 [ext_resource type="PackedScene" uid="uid://cuanai4l0ucvy" path="res://entities/bosses/fear_mask_boss.tscn" id="17_lh335"]
 [ext_resource type="PackedScene" uid="uid://ktc8xcbqpbvu" path="res://levels/instruction_trigger.tscn" id="19_368ro"]
 [ext_resource type="PackedScene" uid="uid://bmaa4eujf80hs" path="res://entities/enemies/rectangle_enemy/rectangle_enemy.tscn" id="20_kogck"]
 [ext_resource type="PackedScene" uid="uid://dq1s3av4acd4j" path="res://entities/enemies/basic_enemy/basic_enemy.tscn" id="21_574oa"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_u6cys"]
-shader = ExtResource("8_lh335")
-shader_parameter/amplitude = 12.0
-shader_parameter/health_percent = 1.0
-shader_parameter/blood_color = Color(0.71269226, 1.2513996e-06, 4.813075e-07, 1)
-shader_parameter/wave_highlight = Color(0.80126345, 4.235506e-06, 2.8878452e-07, 1)
-shader_parameter/wave_line_width = 0.02
-shader_parameter/use_circle = true
-shader_parameter/circle_radius = 0.5
-shader_parameter/edge_smoothness = 0.01
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ta7ci"]
-shader = ExtResource("11_lh335")
-shader_parameter/amplitude = 12.0
-shader_parameter/health_percent = 1.0
-shader_parameter/blood_color = Color(0.96835357, 0.3659997, 0, 1)
-shader_parameter/wave_highlight = Color(0.96862745, 0.22352941, 0, 1)
-shader_parameter/wave_line_width = 0.02
-shader_parameter/ability_active = false
-shader_parameter/ability_glow_color = Color(1, 0.2, 0, 1)
-shader_parameter/glow_intensity = 1.0
-shader_parameter/glow_speed = 3.0
-shader_parameter/time = 0.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ta7ci"]
 content_margin_left = 2.0
@@ -94,100 +65,14 @@ bus = &"Music"
 script = ExtResource("8_d5x7l")
 player = NodePath("../AudioStreamPlayer")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="CanvasLayer"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="HealthBar" type="TextureRect" parent="CanvasLayer/Control"]
-clip_children = 2
-z_index = 1
-material = SubResource("ShaderMaterial_u6cys")
-clip_contents = true
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = -152.0
-offset_right = 152.0
-offset_bottom = -24.0
-grow_vertical = 0
-texture = ExtResource("1_80vhd")
-script = ExtResource("2_hjsbj")
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/HealthBar"]
-modulate = Color(0.5294118, 0, 0, 1)
-show_behind_parent = true
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_80vhd")
-
-[node name="ComboBar" type="TextureRect" parent="CanvasLayer/Control" node_paths=PackedStringArray("mask_icon_container")]
-clip_children = 2
-z_index = 1
-material = SubResource("ShaderMaterial_ta7ci")
-clip_contents = true
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -152.0
-offset_top = -152.0
-offset_right = -24.0
-offset_bottom = -24.0
-grow_horizontal = 0
-grow_vertical = 0
-texture = ExtResource("1_80vhd")
-script = ExtResource("11_ta7ci")
-mask_icon_container = NodePath("MaskIron")
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/ComboBar"]
-modulate = Color(0.7617893, 0.16724876, 5.7756904e-07, 1)
-show_behind_parent = true
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_80vhd")
-
-[node name="MaskIron" type="TextureRect" parent="CanvasLayer/Control/ComboBar"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(32, 32)
-
-[node name="Cursor" type="Sprite2D" parent="CanvasLayer/Control"]
+[node name="Cursor" type="Sprite2D" parent="CanvasLayer2"]
 texture = ExtResource("8_mxp4k")
 script = ExtResource("7_d7v53")
 follow_speed = 30.0
 
-[node name="NoteManager" type="Control" parent="CanvasLayer/Control/Cursor" node_paths=PackedStringArray("conductor", "spawners")]
+[node name="NoteManager" type="Control" parent="CanvasLayer2/Cursor" node_paths=PackedStringArray("conductor", "spawners")]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -201,11 +86,11 @@ offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("9_rtcij")
-conductor = NodePath("../../../../Conductor")
+conductor = NodePath("../../../Conductor")
 spawners = [NodePath("NoteSpawner"), NodePath("NoteSpawner2")]
 metadata/_edit_use_anchors_ = true
 
-[node name="NoteSpawner" parent="CanvasLayer/Control/Cursor/NoteManager" instance=ExtResource("7_hy0rb")]
+[node name="NoteSpawner" parent="CanvasLayer2/Cursor/NoteManager" instance=ExtResource("7_hy0rb")]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -224,7 +109,7 @@ note_scene = ExtResource("15_574oa")
 movement_direction = Vector2(1, 0)
 metadata/_edit_use_anchors_ = true
 
-[node name="NoteSpawner2" parent="CanvasLayer/Control/Cursor/NoteManager" instance=ExtResource("7_hy0rb")]
+[node name="NoteSpawner2" parent="CanvasLayer2/Cursor/NoteManager" instance=ExtResource("7_hy0rb")]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -239,7 +124,7 @@ note_scene = ExtResource("15_574oa")
 movement_direction = Vector2(-1, 0)
 metadata/_edit_use_anchors_ = true
 
-[node name="RevolverAmmoBar" type="ProgressBar" parent="CanvasLayer/Control/Cursor"]
+[node name="RevolverAmmoBar" type="ProgressBar" parent="CanvasLayer2/Cursor"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -290,24 +175,31 @@ position = Vector2(199, -1622)
 
 [node name="BasicEnemy" parent="Entities" instance=ExtResource("21_574oa")]
 position = Vector2(171, -623)
+enemy_data = null
 
 [node name="BasicEnemy10" parent="Entities" instance=ExtResource("21_574oa")]
 position = Vector2(96, -362)
+enemy_data = null
 
 [node name="BasicEnemy5" parent="Entities" instance=ExtResource("21_574oa")]
 position = Vector2(150, -1547)
+enemy_data = null
 
 [node name="BasicEnemy6" parent="Entities" instance=ExtResource("21_574oa")]
 position = Vector2(13, -1505)
+enemy_data = null
 
 [node name="BasicEnemy7" parent="Entities" instance=ExtResource("21_574oa")]
 position = Vector2(-79, -1494)
+enemy_data = null
 
 [node name="BasicEnemy8" parent="Entities" instance=ExtResource("21_574oa")]
 position = Vector2(127, -1464)
+enemy_data = null
 
 [node name="BasicEnemy9" parent="Entities" instance=ExtResource("21_574oa")]
 position = Vector2(175, -1456)
+enemy_data = null
 
 [node name="RectangleEnemy4" parent="Entities" instance=ExtResource("20_kogck")]
 position = Vector2(-91, -1036)
@@ -317,9 +209,12 @@ position = Vector2(-72, -1162)
 
 [node name="BasicEnemy2" parent="Entities" instance=ExtResource("21_574oa")]
 position = Vector2(124, -1000)
+enemy_data = null
 
 [node name="BasicEnemy3" parent="Entities" instance=ExtResource("21_574oa")]
 position = Vector2(76, -1091)
+enemy_data = null
 
 [node name="BasicEnemy4" parent="Entities" instance=ExtResource("21_574oa")]
 position = Vector2(282, -1211)
+enemy_data = null

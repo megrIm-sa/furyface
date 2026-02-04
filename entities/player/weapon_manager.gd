@@ -1,88 +1,52 @@
-# res://scripts/weapons/weapon_manager.gd
 class_name WeaponManager
 extends Node2D
 
-signal weapon_switched(weapon_type: Enums.WeaponType)
-signal weapon_fired(weapon: Weapon, hit_type: Enums.HitType)
-signal weapon_upgraded(weapon: Weapon, branch: int, level: int)
+signal weapon_switched(weapon: Weapon)
+signal weapon_fired(weapon: Weapon, hit_type: Enums.HitType, damage: float)
+signal weapon_missed(weapon: Weapon, hit_type: Enums.HitType)
+signal enemy_hit(enemy: Node2D, damage: float, hit_type: Enums.HitType)
 
+@export_group("Configuration")
 @export var starting_weapon: Enums.WeaponType = Enums.WeaponType.BLADE
-@export_group("Weapon Scenes")
-@export var blade_scene: PackedScene
-@export var revolvers_scene: PackedScene
 
-var player: Player
+@export_group("Scene References")
+@export var weapon_container: Node2D
+
 var current_weapon: Weapon
 var weapons: Dictionary = {}
 
-@onready var weapon_container: Node2D = $WeaponContainer
-
-func _ready():
-	player = get_parent() as Player
-	assert(player != null, "WeaponManager must be child of Player")
+func _ready() -> void:
+	if not weapon_container:
+		weapon_container = get_node_or_null("WeaponContainer")
+		if not weapon_container:
+			push_error("WeaponManager: weapon_container not found!")
+			return
 	
-	_initialize_weapons()
+	_register_weapons()
 	switch_weapon(starting_weapon)
 
-func _input(event):
-	# Обработка ручной перезарядки
-	if event.is_action_pressed("reload"):
-		try_reload()
+func _physics_process(delta: float) -> void:
+	if current_weapon:
+		current_weapon.weapon_process(delta)
 
-func _initialize_weapons():
-	print("=== Initializing Weapons ===")
-	
-	# Blade
-	if blade_scene:
-		print("Loading Blade scene...")
-		var blade = blade_scene.instantiate() as Blade
-		if blade:
-			blade.weapon_manager = self
-			weapon_container.add_child(blade)
-			
-			if blade.weapon_data:
-				print("Blade weapon_data found: ", blade.weapon_data.weapon_name)
-				print("Blade weapon_type: ", blade.weapon_data.weapon_type)
-				weapons[blade.weapon_data.weapon_type] = blade
-				blade.is_active = false
+func _register_weapons() -> void:
+	"""Регистрирует все оружия из weapon_container"""
+	for child in weapon_container.get_children():
+		if child is Weapon:
+			if child.weapon_data:
+				weapons[child.weapon_data.weapon_type] = child
+				child.deactivate()
+				_connect_weapon_signals(child)
 			else:
-				push_warning("WeaponManager: Blade weapon_data not assigned!")
-		else:
-			push_warning("WeaponManager: Failed to instantiate Blade!")
-	else:
-		push_warning("WeaponManager: blade_scene not assigned!")
-	
-	# Revolvers
-	if revolvers_scene:
-		print("Loading Revolvers scene...")
-		var revolvers = revolvers_scene.instantiate() as DualRevolvers
-		if revolvers:
-			revolvers.weapon_manager = self
-			weapon_container.add_child(revolvers)
-			
-			if revolvers.weapon_data:
-				print("Revolvers weapon_data found: ", revolvers.weapon_data.weapon_name)
-				print("Revolvers weapon_type: ", revolvers.weapon_data.weapon_type)
-				weapons[revolvers.weapon_data.weapon_type] = revolvers
-				revolvers.is_active = false
-			else:
-				push_warning("WeaponManager: Revolvers weapon_data not assigned!")
-		else:
-			push_warning("WeaponManager: Failed to instantiate Revolvers!")
-	else:
-		push_warning("WeaponManager: revolvers_scene not assigned!")
-	
-	print("Total weapons loaded: ", weapons.size())
-	print("Available weapon types: ", weapons.keys())
-	
-	# Деактивируем все оружия
-	for weapon in weapons.values():
-		weapon.deactivate()
-		print("Deactivated weapon: ", weapon.name)
-	
-	print("=== Weapons Initialization Complete ===")
+				push_warning("WeaponManager: Weapon '%s' has no weapon_data!" % child.name)
 
-func switch_weapon(weapon_type: Enums.WeaponType):
+func _connect_weapon_signals(weapon: Weapon) -> void:
+	"""Подключает сигналы оружия"""
+	weapon.attack_performed.connect(_on_weapon_attack_performed)
+	weapon.enemy_hit.connect(_on_weapon_enemy_hit)
+
+func switch_weapon(weapon_type: Enums.WeaponType) -> void:
+	"""Переключает активное оружие"""
 	if current_weapon and current_weapon.weapon_data and current_weapon.weapon_data.weapon_type == weapon_type:
 		return
 	
@@ -94,71 +58,46 @@ func switch_weapon(weapon_type: Enums.WeaponType):
 	if weapon_type in weapons:
 		current_weapon = weapons[weapon_type]
 		current_weapon.activate()
-		weapon_switched.emit(weapon_type)
+		weapon_switched.emit(current_weapon)
 	else:
 		push_warning("WeaponManager: weapon type %s not found!" % Enums.WeaponType.keys()[weapon_type])
 
 func try_attack(note_manager: NoteManager) -> bool:
+	"""Пытается атаковать текущим оружием"""
 	if not current_weapon or not current_weapon.can_attack():
 		return false
 	
 	var hit_type: Enums.HitType = note_manager.resolve_hit()
 	
-	# Успешные атаки: PERFECT, GOOD_EARLY, GOOD_LATE
+	# Успешные атаки
 	if hit_type in [Enums.HitType.PERFECT, Enums.HitType.GOOD_EARLY, Enums.HitType.GOOD_LATE]:
 		current_weapon.attack(hit_type)
-		weapon_fired.emit(current_weapon, hit_type)
-		
-		# Уведомляем mask ability о попадании
-		if player.mask_ability:
-			var damage = current_weapon.weapon_data.base_damage if current_weapon.weapon_data else 0.0
-			player.mask_ability.on_weapon_hit(hit_type, damage)
-		
 		return true
 	
-	# Промахи: MISS_EARLY, MISS_LATE
+	# Промахи
 	else:
 		current_weapon.on_missed_beat()
-		
-		# Уведомляем о промахе
-		if player.mask_ability:
-			player.mask_ability.on_weapon_hit(hit_type, 0.0)
-		
+		weapon_missed.emit(current_weapon, hit_type)
 		return false
-		
 
 func try_reload() -> bool:
 	"""Пытается перезарядить текущее оружие"""
 	if not current_weapon:
 		return false
 	
-	# Проверяем, поддерживает ли оружие перезарядку
 	if current_weapon.has_method("manual_reload"):
 		return current_weapon.manual_reload()
 	
 	return false
 
 func get_weapon(weapon_type: Enums.WeaponType) -> Weapon:
+	"""Возвращает оружие по типу"""
 	return weapons.get(weapon_type, null)
 
-func upgrade_weapon(weapon_type: Enums.WeaponType, branch: int):
-	var weapon = get_weapon(weapon_type)
-	if weapon:
-		weapon.upgrade(branch)
-		weapon_upgraded.emit(weapon, branch, weapon.get_branch_level(branch))
+# ============= SIGNAL HANDLERS =============
 
-func get_player_position() -> Vector2:
-	return player.global_position
+func _on_weapon_attack_performed(weapon: Weapon, hit_type: Enums.HitType, damage: float) -> void:
+	weapon_fired.emit(weapon, hit_type, damage)
 
-func get_player_direction() -> Vector2:
-	var mouse_pos = get_global_mouse_position()
-	var dir = (mouse_pos - player.global_position).normalized()
-	
-	if dir.length() < 0.1:
-		dir = Vector2.RIGHT if not player.sprite.flip_h else Vector2.LEFT
-	
-	return dir
-
-func _physics_process(delta):
-	if current_weapon:
-		current_weapon.weapon_process(delta)
+func _on_weapon_enemy_hit(enemy: Node2D, damage: float, hit_type: Enums.HitType) -> void:
+	enemy_hit.emit(enemy, damage, hit_type)

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="RevolverResource" load_steps=3 format=3 uid="uid://bmbot827u15qe"]
 
-[ext_resource type="Texture2D" uid="uid://c274mkr7wymow" path="res://weapon/dual_revolvers/revolver.png" id="1_800pc"]
+[ext_resource type="Texture2D" uid="uid://c274mkr7wymow" path="res://entities/player/weapon/dual_revolvers/revolver.png" id="1_800pc"]
 [ext_resource type="Script" uid="uid://vjwla5se3w7" path="res://resources/weapons/revolver_resource.gd" id="1_pjo7t"]
 
 [resource]

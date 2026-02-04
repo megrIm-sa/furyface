@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cddfptgnqtnjf"]
+[gd_scene load_steps=45 format=3 uid="uid://cddfptgnqtnjf"]
 
 [ext_resource type="Script" uid="uid://cbdjxvq7h27s7" path="res://entities/player/player.gd" id="1_sglur"]
 [ext_resource type="Texture2D" uid="uid://by2dxiv53a4dt" path="res://entities/player/sprites/player_idle.png" id="3_26q78"]
@@ -6,13 +6,32 @@
 [ext_resource type="Texture2D" uid="uid://ld8fnecga5pq" path="res://entities/player/sprites/player_walk.png" id="4_bectd"]
 [ext_resource type="Script" uid="uid://fcytit1klfdq" path="res://entities/player/weapon_manager.gd" id="4_bls4j"]
 [ext_resource type="Texture2D" uid="uid://b6ykabry31oka" path="res://entities/player/sprites/player_mask_walk.png" id="5_7thud"]
-[ext_resource type="PackedScene" uid="uid://bctmwk7gxteft" path="res://weapon/blade/blade.tscn" id="5_fkugw"]
 [ext_resource type="Texture2D" uid="uid://crx81ms6r2hrs" path="res://entities/player/sprites/player_death.png" id="5_wvtmh"]
 [ext_resource type="Script" uid="uid://dr2t5sppc2vjs" path="res://ui/dash_cooldown_indicator/dash_cooldown_indicator.gd" id="6_8fjmc"]
-[ext_resource type="PackedScene" uid="uid://3prksn7yqcb8" path="res://weapon/dual_revolvers/revolver.tscn" id="6_26q78"]
 [ext_resource type="Texture2D" uid="uid://dfar4u2wwgx16" path="res://entities/player/sprites/player_mask_death.png" id="7_a1qjk"]
-[ext_resource type="Script" uid="uid://b0ksli61si5vb" path="res://entities/player/hands.gd" id="7_qiwj3"]
-[ext_resource type="Script" uid="uid://cendxjy3e1ktm" path="res://masks/mask_ability_manager.gd" id="8_j3ovn"]
+[ext_resource type="Script" uid="uid://b0ksli61si5vb" path="res://entities/player/hands_controller.gd" id="7_qiwj3"]
+[ext_resource type="Script" uid="uid://c1wrx8uabtw7i" path="res://entities/components/health_component.gd" id="8_gx6sm"]
+[ext_resource type="Script" uid="uid://cendxjy3e1ktm" path="res://entities/player/mask_ability_manager.gd" id="8_j3ovn"]
+[ext_resource type="Script" uid="uid://wirjx4va8lp1" path="res://entities/components/damage_flash_component.gd" id="9_yqrof"]
+[ext_resource type="Script" uid="uid://di7ofetp50cao" path="res://entities/components/movement_component.gd" id="10_b2kln"]
+[ext_resource type="Script" uid="uid://chwxidm0my5f7" path="res://entities/player/dash_component.gd" id="11_we0b7"]
+[ext_resource type="Script" uid="uid://t30o4d2j48hj" path="res://entities/player/player_animation_controller.gd" id="12_mtric"]
+[ext_resource type="Script" uid="uid://dht73rujwnwh1" path="res://entities/player/combo_component.gd" id="12_we0b7"]
+[ext_resource type="Script" uid="uid://c0nll4bx6e3sl" path="res://entities/player/weapon/dual_revolvers/dual_revolvers.gd" id="17_50fht"]
+[ext_resource type="PackedScene" uid="uid://c58cbbvpmefhw" path="res://entities/player/weapon/bullet/bullet.tscn" id="18_qpopc"]
+[ext_resource type="Script" uid="uid://dvaf55nwb5nly" path="res://entities/player/weapon/dual_revolvers/revolver_visuals.gd" id="18_wuv6x"]
+[ext_resource type="PackedScene" uid="uid://ctjcec1v1b52h" path="res://entities/player/weapon/dual_revolvers/revolver_gun.tscn" id="19_qpopc"]
+[ext_resource type="Resource" uid="uid://bmbot827u15qe" path="res://resources/weapons/revolver.tres" id="19_wq0jh"]
+[ext_resource type="Shader" uid="uid://bsicyqgo74m06" path="res://shaders/healthbar.gdshader" id="20_t1t22"]
+[ext_resource type="Texture2D" uid="uid://crwovwischbym" path="res://ui/health_bar/circle.png" id="21_50fht"]
+[ext_resource type="Script" uid="uid://bje4m7njniyq0" path="res://entities/player/weapon/blade/blade.gd" id="22_wq0jh"]
+[ext_resource type="Script" uid="uid://dbb8m2s6lt6s0" path="res://ui/health_bar/health_bar.gd" id="22_wuv6x"]
+[ext_resource type="Script" uid="uid://1o17ijk7rwvo" path="res://entities/player/weapon/blade/blade_visuals.gd" id="23_24ehl"]
+[ext_resource type="Shader" uid="uid://dupuwvrwc67la" path="res://shaders/combo_bar.gdshader" id="23_qpopc"]
+[ext_resource type="Resource" uid="uid://cyiqtlyuqlpbr" path="res://resources/weapons/blade.tres" id="23_vewsg"]
+[ext_resource type="Texture2D" uid="uid://mp3twuq5hq07" path="res://entities/player/weapon/blade/blade.png" id="24_bwdx1"]
+[ext_resource type="Script" uid="uid://bitimivi3qh8s" path="res://ui/combo_bar/combo_bar.gd" id="24_wq0jh"]
+[ext_resource type="Script" uid="uid://blr4ridx7x37d" path="res://entities/player/weapon/blade/blade_slash_vfx.gd" id="25_bwdx1"]
 
 [sub_resource type="Animation" id="Animation_vnv7o"]
 length = 0.001
@@ -329,6 +348,12 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ta7ci"]
 size = Vector2(6, 14)
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_qiwj3"]
+size = Vector2(4, 4)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wq0jh"]
+radius = 8.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fjmc"]
 content_margin_left = 2.0
 content_margin_top = 2.0
@@ -345,8 +370,29 @@ content_margin_bottom = 2.0
 bg_color = Color(1, 1, 1, 0.4)
 corner_detail = 6
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_qiwj3"]
-size = Vector2(4, 4)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gt4e4"]
+shader = ExtResource("20_t1t22")
+shader_parameter/amplitude = 12.0
+shader_parameter/health_percent = 1.0
+shader_parameter/blood_color = Color(0.71269226, 1.2513996e-06, 4.813075e-07, 1)
+shader_parameter/wave_highlight = Color(0.80126345, 4.235506e-06, 2.8878452e-07, 1)
+shader_parameter/wave_line_width = 0.02
+shader_parameter/use_circle = true
+shader_parameter/circle_radius = 0.5
+shader_parameter/edge_smoothness = 0.01
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_24ehl"]
+shader = ExtResource("23_qpopc")
+shader_parameter/amplitude = 12.0
+shader_parameter/health_percent = 1.0
+shader_parameter/blood_color = Color(0.96835357, 0.3659997, 0, 1)
+shader_parameter/wave_highlight = Color(0.96862745, 0.22352941, 0, 1)
+shader_parameter/wave_line_width = 0.02
+shader_parameter/ability_active = false
+shader_parameter/ability_glow_color = Color(1, 0.2, 0, 1)
+shader_parameter/glow_intensity = 1.0
+shader_parameter/glow_speed = 3.0
+shader_parameter/time = 0.0
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
@@ -379,21 +425,112 @@ autoplay = "idle"
 position = Vector2(0, 9)
 shape = SubResource("RectangleShape2D_ta7ci")
 
-[node name="MaskAbilityManager" type="Node2D" parent="."]
-position = Vector2(0, 13)
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("8_gx6sm")
+metadata/_custom_type_script = "uid://c1wrx8uabtw7i"
+
+[node name="DamageFlashComponent" type="Node" parent="." node_paths=PackedStringArray("target_sprite")]
+script = ExtResource("9_yqrof")
+target_sprite = NodePath("../Sprite2D")
+metadata/_custom_type_script = "uid://wirjx4va8lp1"
+
+[node name="MovementComponent" type="Node" parent="."]
+script = ExtResource("10_b2kln")
+metadata/_custom_type_script = "uid://di7ofetp50cao"
+
+[node name="DashComponent" type="Node" parent="."]
+script = ExtResource("11_we0b7")
+metadata/_custom_type_script = "uid://chwxidm0my5f7"
+
+[node name="ComboComponent" type="Node" parent="."]
+script = ExtResource("12_we0b7")
+metadata/_custom_type_script = "uid://dht73rujwnwh1"
+
+[node name="PlayerAnimationController" type="Node" parent="." node_paths=PackedStringArray("sprite", "mask_sprite", "animation_player")]
+script = ExtResource("12_mtric")
+sprite = NodePath("../Sprite2D")
+mask_sprite = NodePath("../MaskSprite2D")
+animation_player = NodePath("../AnimationPlayer")
+metadata/_custom_type_script = "uid://t30o4d2j48hj"
+
+[node name="MaskAbilityManager" type="Node" parent="." node_paths=PackedStringArray("combo_component")]
 script = ExtResource("8_j3ovn")
 min_ability_duration = 3.0
+combo_component = NodePath("../ComboComponent")
 
-[node name="WeaponManager" type="Node2D" parent="."]
+[node name="HandsController" type="Node2D" parent="."]
+position = Vector2(0, 7)
+script = ExtResource("7_qiwj3")
+hand_distance = 8.0
+
+[node name="RightHand" type="Marker2D" parent="HandsController"]
+
+[node name="Sprite2D" type="Sprite2D" parent="HandsController/RightHand"]
+visible = false
+texture = SubResource("PlaceholderTexture2D_qiwj3")
+
+[node name="LeftHand" type="Marker2D" parent="HandsController"]
+
+[node name="Sprite2D" type="Sprite2D" parent="HandsController/LeftHand"]
+visible = false
+texture = SubResource("PlaceholderTexture2D_qiwj3")
+
+[node name="WeaponManager" type="Node2D" parent="." node_paths=PackedStringArray("weapon_container")]
 modulate = Color(0.7581918, 0.7581918, 0.7581917, 1)
 position = Vector2(0, 7)
 script = ExtResource("4_bls4j")
-blade_scene = ExtResource("5_fkugw")
-revolvers_scene = ExtResource("6_26q78")
+starting_weapon = 1
+weapon_container = NodePath("WeaponContainer")
 
 [node name="WeaponContainer" type="Node2D" parent="WeaponManager"]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="DualRevolvers" type="Node2D" parent="WeaponManager/WeaponContainer" node_paths=PackedStringArray("visuals")]
+visible = false
+script = ExtResource("17_50fht")
+bullet_scene = ExtResource("18_qpopc")
+visuals = NodePath("RevolverVisuals")
+weapon_data = ExtResource("19_wq0jh")
+metadata/_custom_type_script = "uid://c0nll4bx6e3sl"
+
+[node name="RevolverVisuals" type="Node2D" parent="WeaponManager/WeaponContainer/DualRevolvers" node_paths=PackedStringArray("hands_controller")]
+script = ExtResource("18_wuv6x")
+revolver_scene = ExtResource("19_qpopc")
+hands_controller = NodePath("../../../../HandsController")
+metadata/_custom_type_script = "uid://dvaf55nwb5nly"
+
+[node name="Blade" type="Node2D" parent="WeaponManager/WeaponContainer" node_paths=PackedStringArray("attack_area", "visuals", "slash_vfx")]
+visible = false
+script = ExtResource("22_wq0jh")
+attack_area = NodePath("AttackArea")
+visuals = NodePath("BladeVisuals")
+slash_vfx = NodePath("BladeSlashVFX")
+weapon_data = ExtResource("23_vewsg")
+metadata/_custom_type_script = "uid://bje4m7njniyq0"
+
+[node name="AttackArea" type="Area2D" parent="WeaponManager/WeaponContainer/Blade"]
+position = Vector2(0, 5)
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponManager/WeaponContainer/Blade/AttackArea"]
+shape = SubResource("CircleShape2D_wq0jh")
+
+[node name="BladeVisuals" type="Node2D" parent="WeaponManager/WeaponContainer/Blade" node_paths=PackedStringArray("sprite", "hands_controller")]
+script = ExtResource("23_24ehl")
+sprite = NodePath("BladeSprite")
+hands_controller = NodePath("../../../../HandsController")
+metadata/_custom_type_script = "uid://1o17ijk7rwvo"
+
+[node name="BladeSprite" type="Sprite2D" parent="WeaponManager/WeaponContainer/Blade/BladeVisuals"]
+texture = ExtResource("24_bwdx1")
+offset = Vector2(0, -10)
+
+[node name="BladeSlashVFX" type="Node2D" parent="WeaponManager/WeaponContainer/Blade"]
+script = ExtResource("25_bwdx1")
+metadata/_custom_type_script = "uid://blr4ridx7x37d"
+
+[node name="DashCooldownContainer" type="HBoxContainer" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -410,7 +547,7 @@ pivot_offset = Vector2(23, 2)
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="DashCooldownIndicator" type="ProgressBar" parent="HBoxContainer"]
+[node name="DashCooldownIndicator" type="ProgressBar" parent="DashCooldownContainer" node_paths=PackedStringArray("dash_component")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -419,8 +556,9 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_qiwj3")
 fill_mode = 1
 show_percentage = false
 script = ExtResource("6_8fjmc")
+dash_component = NodePath("../../DashComponent")
 
-[node name="DashCooldownIndicator2" type="ProgressBar" parent="HBoxContainer"]
+[node name="DashCooldownIndicator2" type="ProgressBar" parent="DashCooldownContainer" node_paths=PackedStringArray("dash_component")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -428,21 +566,95 @@ theme_override_styles/background = SubResource("StyleBoxFlat_8fjmc")
 theme_override_styles/fill = SubResource("StyleBoxFlat_qiwj3")
 show_percentage = false
 script = ExtResource("6_8fjmc")
+dash_component = NodePath("../../DashComponent")
 
-[node name="Hands" type="Node2D" parent="." node_paths=PackedStringArray("player")]
-position = Vector2(0, 7)
-script = ExtResource("7_qiwj3")
-player = NodePath("..")
-hand_distance = 8.0
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="RightHand" type="Marker2D" parent="Hands"]
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="Hands/RightHand"]
-visible = false
-texture = SubResource("PlaceholderTexture2D_qiwj3")
+[node name="HealthBar" type="TextureRect" parent="CanvasLayer/Control" node_paths=PackedStringArray("health_component")]
+clip_children = 2
+z_index = 1
+material = SubResource("ShaderMaterial_gt4e4")
+clip_contents = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -152.0
+offset_right = 152.0
+offset_bottom = -24.0
+grow_vertical = 0
+texture = ExtResource("21_50fht")
+script = ExtResource("22_wuv6x")
+health_component = NodePath("../../../HealthComponent")
 
-[node name="LeftHand" type="Marker2D" parent="Hands"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/HealthBar"]
+modulate = Color(0.5294118, 0, 0, 1)
+show_behind_parent = true
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("21_50fht")
 
-[node name="Sprite2D" type="Sprite2D" parent="Hands/LeftHand"]
-visible = false
-texture = SubResource("PlaceholderTexture2D_qiwj3")
+[node name="ComboBar" type="TextureRect" parent="CanvasLayer/Control" node_paths=PackedStringArray("mask_icon_container", "combo_component", "mask_ability_manager")]
+clip_children = 2
+z_index = 1
+material = SubResource("ShaderMaterial_24ehl")
+clip_contents = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -152.0
+offset_top = -152.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("21_50fht")
+script = ExtResource("24_wq0jh")
+mask_icon_container = NodePath("MaskIron")
+combo_component = NodePath("../../../ComboComponent")
+mask_ability_manager = NodePath("../../../MaskAbilityManager")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/ComboBar"]
+modulate = Color(0.7617893, 0.16724876, 5.7756904e-07, 1)
+show_behind_parent = true
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("21_50fht")
+
+[node name="MaskIron" type="TextureRect" parent="CanvasLayer/Control/ComboBar"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(32, 32)

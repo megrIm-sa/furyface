@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://3prksn7yqcb8"]
+
+[ext_resource type="Script" uid="uid://c0nll4bx6e3sl" path="res://entities/player/weapon/dual_revolvers/dual_revolvers.gd" id="1_ylh46"]
+[ext_resource type="PackedScene" uid="uid://c58cbbvpmefhw" path="res://entities/player/weapon/bullet/bullet.tscn" id="2_mfue0"]
+[ext_resource type="Resource" uid="uid://bmbot827u15qe" path="res://resources/weapons/revolver.tres" id="3_icifp"]
+[ext_resource type="Script" uid="uid://dvaf55nwb5nly" path="res://entities/player/weapon/dual_revolvers/revolver_visuals.gd" id="4_mfue0"]
+
+[node name="DualRevolvers" type="Node2D" node_paths=PackedStringArray("visuals")]
+visible = false
+script = ExtResource("1_ylh46")
+bullet_scene = ExtResource("2_mfue0")
+visuals = NodePath("RevoloverVisuals")
+weapon_data = ExtResource("3_icifp")
+
+[node name="RevoloverVisuals" type="Node2D" parent="."]
+script = ExtResource("4_mfue0")

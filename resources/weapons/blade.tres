@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="BladeResource" load_steps=3 format=3 uid="uid://cyiqtlyuqlpbr"]
 
-[ext_resource type="Texture2D" uid="uid://mp3twuq5hq07" path="res://weapon/blade/blade.png" id="1_mwi6c"]
+[ext_resource type="Texture2D" uid="uid://mp3twuq5hq07" path="res://entities/player/weapon/blade/blade.png" id="1_mwi6c"]
 [ext_resource type="Script" uid="uid://c0k11nccfm1jt" path="res://resources/weapons/blade_resource.gd" id="1_pypiu"]
 
 [resource]
